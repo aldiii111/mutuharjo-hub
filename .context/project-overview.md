@@ -1,17 +1,17 @@
-# SPESIFIKASI DETAIL — 11 FITUR FINAL
+# SPESIFIKASI DETAIL — 10 FITUR FINAL
 ## Mutuharjo Hub — Website SMK Muhammadiyah 1 Sukoharjo
 
 > **Aturan penamaan:** "Mutuharjo Hub" adalah nama produk/project. Untuk seluruh
 > konten yang merepresentasikan identitas resmi sekolah ke publik (profil sekolah,
 > logo, footer, judul halaman, metadata SEO) WAJIB memakai nama resmi
 > **"SMK Muhammadiyah 1 Sukoharjo"** atau bentuk singkatnya **"SMK Mutuharjo"** —
-> bukan "Mutuharjo Hub". Lihat `00-CONSTITUTION.md` bagian 1 untuk aturan lengkap.
+> bukan "Mutuharjo Hub". Lihat `design-system/master.md` bagian 1 untuk aturan lengkap.
 
 > **⚠️ CATATAN PENTING SOAL WIREFRAME:** Setiap sketsa ASCII di dokumen ini adalah
 > **ilustrasi kasar untuk menjelaskan struktur & urutan elemen saja** — BUKAN desain
 > final. Tata letak, warna, jenis komponen (kartu vs tabel vs list), spacing, dan
 > detail visual lainnya **boleh dan SEHARUSNYA disesuaikan lebih lanjut oleh tim
-> UI/UX** mengikuti design system (Constitution 2.4) untuk menghasilkan pengalaman
+> UI/UX** mengikuti design system (`design-system/master.md`) untuk menghasilkan pengalaman
 > yang lebih menarik dan matang. Anggap wireframe di sini sebagai "kerangka fungsi",
 > bukan "cetak biru visual".
 
@@ -23,12 +23,9 @@ Data Model → API Routes → Validasi/Edge Case → Integrasi → Definition of
 # FITUR #1 — Form Pendaftaran Multi-Step PPDB (di Subdomain)
 
 ## Konsep
-Mendigitalkan & memecah tahap "Mulai Pendaftaran" dari alur SPMB asli (5 tahap besar:
-Mulai Pendaftaran → Unduh Bukti → Konfirmasi Bayar → Masuk Akun → Pengumuman) menjadi
-form bertahap yang jelas. **Perubahan penting:** seluruh alur interaktif ini berjalan
 di **subdomain `ppdb.smkmuh1-skh.sch.id`**, terpisah dari domain utama — namun berbagi
-codebase, database, dan design system yang sama (lihat `01-ARCHITECTURE.md` bagian
-Subdomain PPDB untuk detail teknis).
+codebase, database, dan design system yang sama (lihat `architecture.md` bagian
+Subdomain Strategy untuk detail teknis).
 
 ## Alur Pengguna (Lintas Domain → Subdomain)
 1. Calon siswa buka domain utama `smkmuh1-skh.sch.id`, klik menu **"PPDB"** di navbar
@@ -47,7 +44,7 @@ Subdomain PPDB untuk detail teknis).
 8. **Step 4 — Review & Submit:** Tampilkan ringkasan semua data yang diisi + checklist
    berkas fisik yang wajib dibawa saat verifikasi ke sekolah (KK, Akta Kelahiran,
    Piagam prestasi jika ada) → tombol "Daftar Sekarang"
-9. Setelah submit, sistem generate **Nomor Pendaftaran** unik (format `SPMB-2027-XXXX`)
+9. Setelah submit, sistem generate **Nomor Pendaftaran** unik (format `SPMB-2026-XXXX`)
 10. Redirect (masih di subdomain) ke halaman "Bukti Pendaftaran" — tampilkan nomor
     pendaftaran + tombol unduh/cetak (PDF sederhana) → lanjut otomatis ke halaman
     Konfirmasi Pembayaran (Fitur #2), masih di subdomain yang sama
@@ -112,9 +109,10 @@ model PendaftarPPDB {
   pekerjaanOrtu    String?
   pilihanJurusan1  String
   pilihanJurusan2  String?
-  status           String   @default("baru") // baru | terverifikasi | diterima
+  status           String   @default("baru") // baru | terverifikasi | diterima | ditolak
   pembayaran       KonfirmasiBayar?
   createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
 ```
 
@@ -160,7 +158,7 @@ yang jelas dan terhubung otomatis ke WhatsApp admin. Fitur ini tetap berada di
 
 ## Alur Pengguna
 1. Setelah submit form PPDB (Fitur #1), otomatis diarahkan ke
-   `ppdb.smkmuh1-skh.sch.id/konfirmasi?no=SPMB-2027-XXXX`
+   `ppdb.smkmuh1-skh.sch.id/konfirmasi?no=SPMB-2026-XXXX`
 2. Halaman menampilkan info metode pembayaran yang jelas: nomor rekening, nominal
    (Rp 100.000), nama penerima
 3. Form konfirmasi: Nomor Pendaftaran (auto-terisi), Nama Pengirim Transfer, Nominal
@@ -169,7 +167,7 @@ yang jelas dan terhubung otomatis ke WhatsApp admin. Fitur ini tetap berada di
    dengan pesan pre-filled: *"Halo Admin, saya [nama] dengan nomor pendaftaran
    [nomor] sudah transfer Rp[nominal], bukti terlampir di sistem."*
 5. Status berubah jadi **"Menunggu Verifikasi"**, terlihat saat calon siswa cek status
-   di `ppdb.smkmuh1-skh.sch.id/status?no=SPMB-2027-XXXX`
+   di `ppdb.smkmuh1-skh.sch.id/status?no=SPMB-2026-XXXX`
 6. Admin verifikasi manual via panel admin (Fitur #9, di **domain utama**), update
    status jadi "Terverifikasi" atau "Ditolak"
 
@@ -177,7 +175,7 @@ yang jelas dan terhubung otomatis ke WhatsApp admin. Fitur ini tetap berada di
 ```
 +---------------------------------------+
 |  Konfirmasi Pembayaran                 |
-|  No. Pendaftaran: SPMB-2027-0042       |
+|  No. Pendaftaran: SPMB-2026-0042       |
 |                                         |
 |  Info Rekening                         |
 |  Bank X - 123456789 a.n Yayasan        |
@@ -202,9 +200,11 @@ model KonfirmasiBayar {
   pendaftar    PendaftarPPDB @relation(fields: [pendaftarId], references: [id])
   namaPengirim String
   nominal      Int
-  buktiUrl     String
+  buktiUrl     String?
   status       String        @default("menunggu") // menunggu | terverifikasi | ditolak
+  catatanAdmin String?
   createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
 }
 ```
 
@@ -274,7 +274,9 @@ model ProdukBLUD {
   jurusan         String
   gambarUrl       String
   estimasiHarga   String?  // teks bebas, misal "Mulai dari Rp150.000" - bukan harga fix transaksional
+  isActive        Boolean  @default(true)
   createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
 ```
 
@@ -310,14 +312,12 @@ menjadi direktori mitra industri yang sudah publik, dengan jalur kontak ke sekol
 (bukan langsung ke partner).
 
 ## Alur Pengguna
-1. Pengunjung buka `smkmuh1-skh.sch.id/karir` — grid/list mitra industri per jurusan
+1. Pengunjung buka `smkmuh1-skh.sch.id/mitra-industri` — grid/list mitra industri per jurusan
 2. Filter jurusan (client-side, dari `data/mitra.json`)
 3. Tiap kartu: logo/nama mitra, jurusan terkait, bidang kerja sama singkat
 4. Tombol **"Tanya PKL ke Sekolah"** — buka WhatsApp ke koordinator BKK dengan pesan
    pre-filled: *"Halo, saya ingin tanya soal PKL di [nama mitra] untuk jurusan
    [jurusan]"*
-5. CTA tambahan di bagian bawah halaman: *"Sudah PKL? Isi Logbook di sini"* → link
-   ke Fitur #5
 
 ## Wireframe
 ```
@@ -333,8 +333,6 @@ Filter: [Semua Jurusan v]
 | Pembuatan aplikasi Android              |
 |              [Tanya PKL via WA ->]     |
 +---------------------------------------+
-
-  Sudah PKL? [Isi Logbook di sini ->]
 ```
 *(Wireframe ilustratif — bisa dikembangkan jadi grid logo besar dengan hover detail,
 bukan list vertikal sederhana seperti sketsa di atas)*
@@ -364,175 +362,16 @@ sesuai prinsip menjaga halaman ini tetap ringan/cepat.
 | Logo mitra tidak tersedia | Fallback ke ikon generik bangunan/pabrik |
 
 ## Integrasi
-Data mitra yang sama dipakai juga sebagai opsi dropdown "Instansi" di Fitur #5
-(Digital Logbook PKL) — satu sumber data, tidak duplikat input manual.
+Data mitra menjadi etalase publik mitra industri yang sudah bekerja sama dengan
+sekolah per jurusan, dengan jalur kontak terpusat ke koordinator BKK.
 
 ## Definition of Done
 - [ ] List mitra tampil dengan filter jurusan berfungsi
 - [ ] Tombol WhatsApp mengarah ke kontak sekolah (bukan ke mitra langsung)
-- [ ] Link CTA ke halaman Logbook PKL berfungsi
 
 ---
 
-# FITUR #5 — Digital Logbook PKL
-
-## Konsep
-Mendigitalkan tabel logbook PKL standar nasional (format baku: Tanggal, Jam,
-Kegiatan, Uraian Kegiatan) yang selama ini diisi manual di buku/kertas fisik. Bukan
-aplikasi personal dengan sistem login — cukup form terbuka yang formatnya identik
-dengan yang sudah dikenal siswa, guru pembimbing, dan pembimbing industri. Pola ini
-terinspirasi dari observasi pola nyata di sekolah lain (SMKN 1 Singkep), yang
-mendigitalkan "Jurnal PKL" dari dokumen template menjadi versi lebih terstruktur.
-
-## Alur Pengguna
-
-### Titik Masuk (Entry Points)
-1. Menu navigasi domain utama: **Karir → Logbook PKL**
-2. CTA di halaman Direktori Mitra PKL (Fitur #4): tombol "Sudah PKL? Isi Logbook di sini"
-3. (Opsional) Link langsung dibagikan guru pembimbing ke siswa PKL via WhatsApp grup
-
-### Skenario A — Siswa Mengisi Entri Baru
-1. Siswa membuka halaman `/karir/logbook`
-2. Halaman menampilkan **2 tab**: "Isi Entri Baru" (default aktif) dan "Riwayat Logbook"
-3. Siswa mengisi form dengan field (urutan sesuai alur natural pengisian):
-   - Nama Siswa (text, ada **autocomplete dari localStorage browser** — supaya besok
-     isi lagi, nama otomatis muncul tanpa perlu ketik ulang. Ini BUKAN sistem akun,
-     cuma UX shortcut lokal di device masing-masing)
-   - Kelas/Jurusan (dropdown 6 pilihan: TSM, TJKT, TP, TKR, PPLG, TE)
-   - Instansi/Mitra PKL (dropdown berisi data dari Fitur #4 + opsi "Lainnya..." yang
-     memunculkan text input manual kalau instansi belum ada di list)
-   - Tanggal (date picker, default terisi hari ini, tidak boleh pilih tanggal masa depan)
-   - Jam Mulai & Jam Selesai (time picker sederhana)
-   - Kegiatan (text singkat, 1 baris, placeholder: *"contoh: Servis rutin unit motor"*)
-   - Uraian Kegiatan (textarea, lebih detail, placeholder: *"Jelaskan aktivitas yang
-     dilakukan hari ini..."*)
-   - Foto (opsional — tombol upload, preview thumbnail sebelum submit)
-4. Klik tombol **"Simpan Entri"**
-5. Sistem validasi (lihat bagian Validasi), jika lolos → data tersimpan ke database
-6. Muncul notifikasi sukses (toast), form otomatis ter-reset, tab otomatis pindah ke
-   "Riwayat Logbook" menampilkan entri yang baru saja disimpan di posisi paling atas
-
-### Skenario B — Melihat Riwayat Logbook
-1. Siswa/guru/siapa pun membuka tab "Riwayat Logbook"
-2. Tersedia filter di atas list: dropdown "Nama Siswa" (otomatis terisi dari nama-nama
-   unik yang sudah pernah submit) dan dropdown "Instansi"
-3. List ditampilkan sebagai **kartu (card), bukan tabel HTML murni** — supaya mobile
-   friendly (tabel HTML sering harus di-scroll horizontal di HP, kartu lebih nyaman)
-4. Tiap kartu menampilkan ringkas: Tanggal, Nama Siswa, Instansi, Kegiatan (1 baris)
-5. Klik kartu → expand menampilkan detail penuh: Uraian Kegiatan lengkap + foto (jika ada)
-
-### Skenario C — Data Contoh Saat Pertama Dibuka
-- Sistem sudah diisi **2-3 entri contoh** dengan flag khusus, ditampilkan dengan
-  **badge/label visual "Contoh Format Pengisian"** di kartu-nya — supaya
-  visitor/juri langsung paham ini bukan klaim data personal
-- Nama pada data contoh pakai **"Siswa Contoh"**, bukan nama asli siapa pun
-
-## Wireframe (Struktur, Bukan Desain Final)
-```
-+-----------------------------------------------+
-|  Logbook PKL Digital                            |
-|  Catat kegiatan harian PKL secara digital       |
-|                                                  |
-|  [ Isi Entri Baru ]  [ Riwayat Logbook ]        |  <- tab switcher
-+-----------------------------------------------+
-
---- Tab "Isi Entri Baru" ---
-+----------------------+----------------------+
-| INFO UMUM             | KEGIATAN               |
-| Nama Siswa [______]   | Kegiatan [___________]|
-| Kelas [dropdown v]    | Uraian                 |
-| Instansi [dropdown v] | [textarea besar______] |
-| Tanggal [tgl_____]    |                        |
-| Jam [___] - [___]     | Foto (opsional)        |
-|                        | [Upload/Preview]       |
-|         [ Simpan Entri Baru -> ]                |
-+----------------------+----------------------+
-
---- Tab "Riwayat Logbook" ---
-Filter: Nama [dropdown v]   Instansi [dropdown v]
-
-+-----------------------------------------------+
-| [Contoh Format Pengisian]                       |
-| 12 Agt 2026 - Siswa Contoh - Bengkel Yamaha     |
-| Servis rutin unit motor           [Lihat >]     |
-+-----------------------------------------------+
-| 15 Sep 2026 - Ahmad - PT Daihatsu                |
-| Instalasi sistem kelistrikan       [Lihat >]    |
-+-----------------------------------------------+
-```
-*(Wireframe ilustratif — ini murni menjelaskan struktur & alur fungsional. Tim UI/UX
-bebas merancang tampilan yang lebih menarik: misal form 1 kolom dengan step visual,
-kartu riwayat dengan foto thumbnail di sisi kiri, warna/badge berbeda per jurusan,
-dsb — selama fungsinya tetap sesuai alur di atas)*
-
-## Data Model
-```prisma
-model LogbookEntry {
-  id              String   @id @default(uuid())
-  namaSiswa       String
-  kelasJurusan    String   // TSM | TJKT | TP | TKR | PPLG | TE
-  instansi        String
-  tanggal         DateTime
-  jamMulai        String   // format "HH:mm"
-  jamSelesai      String
-  kegiatan        String
-  uraianKegiatan  String
-  fotoUrl         String?
-  isContoh        Boolean  @default(false) // true untuk data seed/contoh
-  createdAt       DateTime @default(now())
-}
-```
-
-## API Routes
-| Method | Route | Fungsi |
-|---|---|---|
-| `POST` | `/api/logbook` | Simpan entri baru — validasi server-side, simpan ke DB |
-| `GET` | `/api/logbook?nama=&instansi=&page=` | Ambil list entri dengan filter & pagination |
-| `DELETE` | `/api/logbook/:id` | Hapus entri — hanya admin (Fitur #9) |
-
-Upload foto memakai endpoint reusable: `POST /api/upload` dengan `category=logbook`.
-
-## Validasi & Edge Cases
-| Kasus | Penanganan |
-|---|---|
-| Field wajib kosong (semua kecuali foto) | Tampilkan pesan error di bawah field terkait, cegah submit |
-| Tanggal dipilih di masa depan | Validasi client-side (max date = hari ini) + validasi ulang di API route |
-| Jam Selesai lebih awal dari Jam Mulai | Validasi sebelum submit, pesan: "Jam selesai harus setelah jam mulai" |
-| Upload foto gagal | Form tetap bisa disubmit TANPA foto — tidak boleh blocking submit entri |
-| Foto lebih dari 2MB atau format salah | Tolak di client sebelum upload, pesan: "Maksimal 2MB, format JPG/PNG/WebP" |
-| Input teks mengandung karakter berbahaya (XSS) | Sanitasi/escape saat render — jangan render HTML mentah dari input user |
-| Data kosong total | Tampilkan data contoh (Skenario C) sebagai fallback, bukan halaman kosong blank |
-
-## Integrasi
-- **Fitur #4:** dropdown "Instansi" mengambil data yang sama dengan Direktori Mitra
-  (satu sumber data), halaman Direktori Mitra punya CTA balik ke halaman logbook ini
-- **Fitur #9:** admin bisa lihat semua entri dalam tabel (bukan kartu — admin butuh
-  scan cepat banyak data), dengan opsi hapus entri spam/tidak pantas
-- **Fitur #10:** halaman ini di-mark `noindex` — bukan halaman yang perlu terindeks Google
-
-## Cara Presentasikan di Pitch Deck / Demo Final Day
-**Narasi yang disarankan:**
-> "Kami mendigitalkan format logbook PKL standar nasional (Tanggal, Jam, Kegiatan,
-> Uraian) yang selama ini diisi manual di kertas. Formatnya sengaja mengikuti pola
-> baku yang sudah dikenal siswa dan pembimbing — bukan sistem baru yang asing —
-> sehingga transisi ke digital lebih mudah diterima."
-
-Karena formatnya simpel (bukan cerita personal panjang), mengisi 1 entri baru cukup
-10-15 detik — aman didemokan langsung tanpa perlu bergantung pada cerita PKL personal.
-
-## Definition of Done
-- [ ] Form bisa disubmit tanpa error untuk semua kombinasi input valid
-- [ ] Validasi semua field bekerja
-- [ ] Entri baru langsung muncul di tab Riwayat tanpa perlu refresh manual
-- [ ] Data contoh (2-3 entri) sudah ada dengan label jelas sejak awal deploy
-- [ ] Responsive: form 2 kolom di desktop otomatis jadi 1 kolom stack di mobile
-- [ ] Upload foto opsional, tidak memblokir submit kalau gagal/dilewati
-- [ ] Filter di tab Riwayat berfungsi (nama & instansi)
-- [ ] Panel admin bisa melihat & menghapus entri (terhubung ke Fitur #9)
-
----
-
-# FITUR #6 — Chatbot FAQ Hybrid (Rule-Based + Gemini Fallback)
+# FITUR #5 — Chatbot FAQ Hybrid (Rule-Based + Gemini Fallback)
 
 ## Konsep
 Chatbot dengan scope terbatas & fokus (FAQ seputar sekolah), meniru pola yang
@@ -555,7 +394,7 @@ Kapabilitas rekomendasi jurusan (menggantikan fitur Quiz) terintegrasi di sini.
    ringan balik, lalu memberi rekomendasi jurusan + alasan singkat berdasarkan jawaban
 7. **Kalau Gemini API gagal/limit habis:** fallback ke jawaban default — *"Maaf, saya
    belum bisa jawab pertanyaan itu"* — dan tombol eskalasi WA (Fitur #7) otomatis
-   muncul lebih menonjol
+   muncul lebih menonjol (Fitur #6)
 
 ## Wireframe
 ```
@@ -611,7 +450,7 @@ export const faqData = [
 | Pertanyaan di luar topik sekolah | Rule-based tidak match → fallback jujur: "Informasi saya terbatas seputar sekolah" |
 
 ## Integrasi
-Terhubung ke Fitur #7 (tombol eskalasi) sebagai bagian dari panel widget yang sama.
+Terhubung ke Fitur #6 (tombol eskalasi) sebagai bagian dari panel widget yang sama.
 
 ## Definition of Done
 - [ ] Widget muncul konsisten di semua halaman (domain utama & subdomain)
@@ -622,14 +461,14 @@ Terhubung ke Fitur #7 (tombol eskalasi) sebagai bagian dari panel widget yang sa
 
 ---
 
-# FITUR #7 — Tombol Eskalasi ke WhatsApp Admin
+# FITUR #6 — Tombol Eskalasi ke WhatsApp Admin
 
 ## Konsep
 Jalur cepat ke manusia ketika chatbot tidak bisa membantu — komponen UI murni,
 reuse di beberapa tempat.
 
 ## Alur Pengguna
-1. **Dari dalam widget chatbot (Fitur #6):** tombol "Hubungi Admin" selalu terlihat
+1. **Dari dalam widget chatbot (Fitur #5):** tombol "Hubungi Admin" selalu terlihat
    di bagian bawah panel chat
 2. **Dari halaman Kontak:** tombol besar mandiri "Chat Admin via WhatsApp"
 3. Klik → buka `wa.me` dengan nomor admin, pesan pre-filled kontekstual
@@ -649,7 +488,7 @@ Tidak perlu — murni komponen UI yang mengambil nomor admin dari environment va
 | Nomor admin berubah di kemudian hari | Cukup update 1 env variable, tidak perlu ubah kode di banyak tempat |
 
 ## Integrasi
-Dipakai di Fitur #6 (chatbot) dan halaman Kontak.
+Dipakai di Fitur #5 (chatbot) dan halaman Kontak.
 
 ## Definition of Done
 - [ ] Tombol berfungsi di kedua lokasi (widget chatbot & halaman Kontak)
@@ -657,7 +496,7 @@ Dipakai di Fitur #6 (chatbot) dan halaman Kontak.
 
 ---
 
-# FITUR #8 — Landing Page & Design System
+# FITUR #7 — Landing Page & Design System
 
 ## Konsep
 Landing page baru yang memperbaiki menu mati & celah keamanan dari situs lama,
@@ -702,7 +541,7 @@ komposisi gambar, dsb — selama tetap sesuai design system anti-cliché)*
 
 ## Data Model
 Sebagian besar konten statis/hardcoded di komponen. Opsional terhubung ke database
-untuk Berita (model `Berita`, dikelola via Fitur #9).
+untuk Berita (model `Berita`, dikelola via Fitur #8).
 
 ## API Routes
 | Method | Route | Fungsi |
@@ -727,7 +566,7 @@ Halaman ini adalah pusat navigasi ke semua fitur lain, termasuk halaman info PPD
 
 ---
 
-# FITUR #9 — Panel Admin CRUD Sederhana
+# FITUR #8 — Panel Admin CRUD Sederhana
 
 ## Konsep
 Memungkinkan guru/panitia sekolah mengelola konten tanpa perlu developer, dengan
@@ -740,11 +579,10 @@ data yang masuk dari subdomain PPDB juga.
 2. Sistem validasi terhadap tabel `Admin` (password di-hash via bcrypt) → jika benar,
    set session cookie → redirect ke `/admin/dashboard`
 3. Dashboard menampilkan **sidebar menu**: Berita, Produk BLUD, Data PPDB, Konfirmasi
-   Pembayaran, Logbook PKL
+   Pembayaran
 4. **Berita & Produk BLUD:** CRUD penuh (Tambah/Edit/Hapus) dengan form + upload gambar
 5. **Data PPDB & Konfirmasi Pembayaran:** lihat list + update status saja
-6. **Logbook PKL:** lihat list (tabel) + hapus entri spam/tidak pantas
-7. Tombol Logout di header → hapus session cookie → redirect ke login
+6. Tombol Logout di header → hapus session cookie → redirect ke login
 
 ## Wireframe
 ```
@@ -754,8 +592,7 @@ data yang masuk dari subdomain PPDB juga.
 | BLUD    | | Nama | Jurusan | Aksi     | |
 | PPDB    | | Servis Motor | TSM | E/H  | |
 | Bayar   | | Aplikasi X | PPLG | E/H   | |
-| Logbook | +--------------------------+ |
-| [Logout]|                              |
+| [Logout]| +--------------------------+ |
 +--------+------------------------------+
 ```
 *(Wireframe ilustratif — layout dashboard, warna sidebar, dan gaya tabel bebas
@@ -764,9 +601,10 @@ disesuaikan tim UI/UX; boleh dibuat lebih modern dengan card summary di atas tab
 ## Data Model
 ```prisma
 model Admin {
-  id           String @id @default(uuid())
-  username     String @unique
+  id           String   @id @default(uuid())
+  username     String   @unique
   passwordHash String
+  createdAt    DateTime @default(now())
 }
 ```
 
@@ -777,9 +615,8 @@ model Admin {
 | `POST` | `/api/auth/logout` | Hapus session |
 | `POST/PUT/DELETE` | `/api/admin/berita`, `/api/admin/blud` | CRUD masing-masing resource |
 | `PATCH` | `/api/admin/ppdb/:id`, `/api/admin/pembayaran/:id` | Update status |
-| `DELETE` | `/api/admin/logbook/:id` | Hapus entri logbook |
 
-Middleware pengecekan session diterapkan di semua route `/admin/*` dan `/api/admin/*`.
+Pengecekan sesi admin diterapkan pada rute halaman `/admin/*` via Next.js Middleware / Guard, dan pada rute API `/api/admin/*` via Express Middleware (`requireAdminSession`).
 
 ## Validasi & Edge Cases
 | Kasus | Penanganan |
@@ -788,29 +625,27 @@ Middleware pengecekan session diterapkan di semua route `/admin/*` dan `/api/adm
 | Password salah berkali-kali | Untuk skala lomba, boleh dilewati dulu; tambahkan rate limit jika waktu cukup |
 
 ## Integrasi
-Titik kontrol data untuk Fitur #3 (BLUD), #5 (moderasi logbook), #1-#2 (lihat/verifikasi
-data PPDB dari subdomain — mungkin lewat 1 database bersama), dan Fitur #8 (kelola berita).
+Titik kontrol data untuk Fitur #3 (BLUD), #1-#2 (lihat/verifikasi
+data PPDB dari subdomain — mungkin lewat 1 database bersama), dan Fitur #7 (kelola berita).
 
 ## Definition of Done
 - [ ] Login/logout berfungsi dengan session sederhana
 - [ ] CRUD Berita & Produk BLUD lengkap
 - [ ] Admin bisa update status PPDB & Pembayaran (data dari subdomain terlihat di sini)
-- [ ] Admin bisa moderasi (hapus) entri logbook
 - [ ] Semua route admin terproteksi dari akses tanpa login
 
 ---
 
-# FITUR #10 — Technical SEO Dasar
+# FITUR #9 — Technical SEO Dasar
 
 ## Konsep
 Memastikan website mudah ditemukan di mesin pencari.
 
 ## Implementasi (Bukan Alur Interaktif, Konfigurasi Teknis)
 1. `app/sitemap.ts` — generate otomatis daftar seluruh URL publik domain utama
-   (landing, jurusan, BLUD, karir). **Subdomain PPDB SENGAJA TIDAK dimasukkan** ke
+   (landing, jurusan, BLUD, mitra-industri). **Subdomain PPDB SENGAJA TIDAK dimasukkan** ke
    sitemap utama karena bersifat transaksional, bukan konten yang perlu terindeks
 2. `app/robots.ts` — izinkan crawling halaman publik domain utama, KECUALI `/admin/*`
-   dan `/karir/logbook`
 3. Setiap halaman punya `generateMetadata()` unik: title, description, Open Graph image
 4. Semantic HTML: hanya 1 tag `<h1>` per halaman, semua gambar punya `alt` text deskriptif
 
@@ -830,7 +665,7 @@ Tidak ada — murni konfigurasi file.
 
 ---
 
-# FITUR #11 — Load Test & Dokumentasi Performa
+# FITUR #10 — Load Test & Dokumentasi Performa
 
 ## Konsep
 Bukti nyata kestabilan website untuk kriteria Final Day (bobot 40%) — dikerjakan
@@ -864,14 +699,14 @@ Tidak ada — deliverable dokumentasi.
 
 ```
 DOMAIN UTAMA (smkmuh1-skh.sch.id)
-  Landing Page (8) --+-- /ppdb (info) --[tombol Daftar Sekarang]--> SUBDOMAIN
+  Landing Page (7) --+-- /ppdb (info) --[tombol Daftar Sekarang]--> SUBDOMAIN
                       +-- BLUD Showcase (3)
-                      +-- Direktori Mitra (4) --> Digital Logbook (5)
-                      +-- Chatbot (6) --> Eskalasi WA (7)
-                      +-- Panel Admin (9) -- mengelola data (1)(2)(3)(5)(8)
+                      +-- Direktori Mitra (4)
+                      +-- Chatbot (5) --> Eskalasi WA (6)
+                      +-- Panel Admin (8) -- mengelola data (1)(2)(3)(7)
 
 SUBDOMAIN (ppdb.smkmuh1-skh.sch.id) -- 1 proses & 1 DB yang sama dengan domain utama
   Form Multi-Step (1) --> Konfirmasi Bayar (2) --> Cek Status
 
-SEO (10) & Load Test (11) -- diterapkan di kedua domain, dikerjakan terakhir
+SEO (9) & Load Test (10) -- diterapkan di kedua domain, dikerjakan terakhir
 ```

@@ -73,7 +73,7 @@
 | `Select` | `components/forms/Select.tsx` | `options`, `placeholder`, `error?` |
 | `FileUpload` | `components/forms/FileUpload.tsx` | `accept`, `maxSizeMB`, `preview?` |
 | `Modal` | `components/ui/Modal.tsx` | `open`, `onClose`, `title`, `size="sm" \| "md" \| "lg" \| "xl"` |
-| `Table` | `components/ui/Table.tsx` | `columns`, `data`, `sortable?`, `actions?` |
+| `Table` | `components/ui/table.tsx` | `Table`, `TableHeader`, `TableBody`, `TableRow`, `TableCell` (Admin panel data tables) |
 | `Badge` | `components/ui/Badge.tsx` | `variant="default" \| "success" \| "warning" \| "danger" \| "info"`, `dot?` |
 | `Toast` | `components/ui/Toast.tsx` | `type="success" \| "error" \| "info"`, `message`, `duration?` |
 | `Stepper` | `components/ppdb/Stepper.tsx` | `steps: string[]`, `current: number`, `completed: number[]` |
@@ -87,12 +87,11 @@
 
 | Halaman | Struktur utama (section order) | Catatan visual |
 |---------|--------------------------------|----------------|
-| **Landing (F8)** | Hero → Statistik → 6 Jurusan (grid) → Testimoni (carousel) → Mitra (logo grid) → Berita (3 kartu) → Fasilitas (icon grid) → Footer | Hero Flat Solid dengan visual anchor: Garis vertikal tipis `1px` (`w-[2px] bg-primary`) sebagai section marker di kiri + `bg-dot-pattern` (subtle dot pattern low-opacity). Bebas dekorasi dashed/circle yang ramai (Prinsip Rams #10: *Less, but better* & *Be Different, Not Better-Looking*). |
+| **Landing (F7)** | Hero → Statistik → 6 Jurusan (grid) → Testimoni (carousel) → Mitra (logo grid) → Berita (3 kartu) → Fasilitas (icon grid) → Footer | Hero Flat Solid dengan visual anchor: Garis vertikal tipis `1px` (`w-[2px] bg-primary`) sebagai section marker di kiri + `bg-dot-pattern` (subtle dot pattern low-opacity). Bebas dekorasi dashed/circle yang ramai (Prinsip Rams #10: *Less, but better* & *Be Different, Not Better-Looking*). |
 | **PPDB Info** | Hero info → Timeline 5 tahap → Syarat & Biaya → CTA ke subdomain | Timeline pakai `border-l-primary` + `absolute` dot. |
 | **Subdomain Form** | Stepper (4 step) → Form per step (2 kolom desktop / 1 kolom mobile) → Review → Submit | `localStorage` draft per step; `focus-visible` ring primary. |
 | **BLUD Showcase** | Filter jurusan (chips) → Grid kartu produk (3 kolom) → Detail modal | Card hover lift 2 px, border primary saat focus. |
 | **Direktori Mitra** | Filter chips → List kartu mitra (logo + bidang) → CTA WA | Logo fallback `Building2` icon. |
-| **Logbook PKL** | Tab: Isi Entri / Riwayat → Form 2 kolom → Kartu riwayat (expandable) | `isContoh` badge amber (`bg-accent/10 text-accent`). |
 | **Chatbot FAQ** | Floating button (kanan bawah) → Panel slide-up → Bubble chat (rule‑based / gemini / fallback) | Tombol “Hubungi Admin” selalu visible. |
 | **Admin Dashboard** | Sidebar (collapsible) → Header (user + logout) → Content area (table / card grid) | Sidebar width `w-64` collapsed `w-16`. |
 | **404 / 500** | Minimal center card: ilustrasi SVG + teks + CTA “Kembali ke Beranda” | Tidak pakai emoji. |
@@ -107,13 +106,12 @@
 | **F2 Konfirmasi Bayar** | `PaymentInfoCard`, `UploadBukti`, `WaRedirectButton` | QR code rekening opsional (generate via API). |
 | **F3 BLUD** | `ProdukCard`, `ProdukDetailModal`, `JurusanFilterChips` | Gambar `object-cover aspect-[4/3]`. |
 | **F4 Mitra** | `MitraCard`, `JurusanFilterChips`, `WaCtaButton` | Logo `object-contain h-12 bg-muted rounded`. |
-| **F5 Logbook** | `LogbookForm`, `LogbookCard`, `ExpandableRow`, `ContohBadge` | Foto opsional, max 2MB, compress WebP. |
-| **F6 Chatbot** | `ChatBubble`, `QuickReplyChips`, `EscalationButton` | Layer 1 rule‑based < 100 ms; Layer 2 Gemini ≤ 3 s. |
-| **F7 Eskalasi WA** | `WaButton` (reuse di Chatbot, Kontak, Logbook, Mitra) | `href="https://wa.me/6281234567890?text=..."` dynamic. |
-| **F8 Landing** | `HeroSection`, `StatistikBar`, `JurusanGrid`, `TestimoniCarousel`, `MitraLogoGrid`, `BeritaGrid`, `FasilitasGrid`, `Footer` | Footer **wajib** 5 logo kompetisi (JHIC, Kemenag, Muhammadiyah, Sponsor, Media). |
-| **F9 Admin** | `Sidebar`, `DataTable`, `CrudModal`, `StatusBadge`, `ImageUploadZone` | Tabel pakai `Table` component + `tanstack-table` (sorting, pagination). |
-| **F10 SEO** | `Metadata` per route (generateMetadata), `Sitemap`, `Robots` | `og:image` pakai template hero + judul. |
-| **F11 Load Test** | N/A (dokumentasi) | Hasil load test dimasukkan ke slide deck. |
+| **F5 Chatbot** | `ChatBubble`, `QuickReplyChips`, `EscalationButton` | Layer 1 rule‑based < 100 ms; Layer 2 Gemini ≤ 3 s. |
+| **F6 Eskalasi WA** | `WaButton` (reuse di Chatbot, Kontak, Mitra) | `href="https://wa.me/6281234567890?text=..."` dynamic. |
+| **F7 Landing** | `HeroSection`, `StatistikBar`, `JurusanGrid`, `TestimoniCarousel`, `MitraLogoGrid`, `BeritaGrid`, `FasilitasGrid`, `Footer` | Footer **wajib** 5 logo kompetisi (JHIC, Kemenag, Muhammadiyah, Sponsor, Media). |
+| **F8 Admin** | `Sidebar`, `DataTable`, `CrudModal`, `StatusBadge`, `ImageUploadZone` | Tabel pakai `Table` component + `tanstack-table` (sorting, pagination). |
+| **F9 SEO** | `Metadata` per route (generateMetadata), `Sitemap`, `Robots` | `og:image` pakai template hero + judul. |
+| **F10 Load Test** | N/A (dokumentasi) | Hasil load test dimasukkan ke slide deck. |
 
 ---
 

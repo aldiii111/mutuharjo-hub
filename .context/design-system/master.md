@@ -114,7 +114,7 @@
     <ul class="flex space-x-6">
       <li><a href="/ppdb" class="text-body hover:text-primary transition-colors">PPDB</a></li>
       <li><a href="/blud" class="text-body hover:text-primary transition-colors">BLUD</a></li>
-      <li><a href="/karir" class="text-body hover:text-primary transition-colors">Karir</a></li>
+      <li><a href="/mitra-industri" class="text-body hover:text-primary transition-colors">Mitra Industri</a></li>
     </ul>
   </nav>
 </header>

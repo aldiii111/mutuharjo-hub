@@ -6,8 +6,8 @@
 | **Monorepo** | Flat: `frontend/` + `backend/` + `shared/` | Simpel, tidak memerlukan tooling ekstra untuk tim 3 orang siswa |
 | **Frontend** | Next.js 15 (App Router) | SSR/SSG, SEO‑friendly, dukungan subdomain via middleware |
 | **Backend** | Express.js 5 + TypeScript | Ringan, mudah dipelajari, cocok untuk API REST |
-| **Database** | SQLite (WAL mode) + Prisma ORM | Zero‑config, satu file, cukup untuk < 1 000 concurrent users |
-| **Session Store** | `better-sqlite3-session-store` (Express session) | Persist sesi di DB, tidak hilang saat restart |
+| **Database** | PostgreSQL + Prisma ORM | Relasional, andal, dukung JSON & full-text query |
+| **Session Store** | `connect-pg-simple` (PostgreSQL session store) | Persist sesi di DB, tidak hilang saat restart |
 | **File Upload** | Local disk (`backend/uploads/`) served langsung oleh Nginx | Gratis, cepat, tanpa ketergantungan cloud |
 | **Subdomain PPDB** | Next.js Middleware hostname rewrite (`ppdb.*`) | Satu codebase, design system & cookie yang sama |
 | **Auth** | Express session cookie + bcrypt | Simpel, cukup untuk panel admin |
@@ -117,21 +117,6 @@ model ProdukBLUD {
   updatedAt     DateTime @updatedAt
 }
 
-model LogbookEntry {
-  id             String   @id @default(uuid())
-  namaSiswa      String
-  kelasJurusan   String
-  instansi       String
-  tanggal        DateTime
-  jamMulai       String
-  jamSelesai     String
-  kegiatan       String
-  uraianKegiatan String
-  fotoUrl        String?
-  isContoh       Boolean  @default(false)
-  createdAt      DateTime @default(now())
-}
-
 model Berita {
   id          String   @id @default(uuid())
   judul       String
@@ -188,20 +173,17 @@ export interface PaginatedResponse<T> extends ApiResponse<T[]> {
   pagination: { page: number; limit: number; total: number; totalPages: number }
 }
 ```
-### Endpoint Overview (25 routes)
+### Endpoint Overview (20 routes)
 | Method | Route | Purpose |
 |---|---|---|
 | **Public** |||
 | `POST` | `/api/ppdb` | Submit pendaftaran, generate nomor unik |
-| `GET`  | `/api/ppdb/:nomor` | Cek status pendaftaran |
+| `GET`  | `/api/ppdb/:nomorPendaftaran` | Cek status pendaftaran |
 | `POST` | `/api/pembayaran` | Simpan konfirmasi bayar (upload bukti optional) |
-| `GET`  | `/api/pembayaran/:nomor` | Cek status pembayaran |
+| `GET`  | `/api/pembayaran/:nomorPendaftaran` | Cek status pembayaran |
 | `GET`  | `/api/blud` | List produk BLUD (filter jurusan) |
 | `GET`  | `/api/blud/:id` | Detail produk |
 | `GET`  | `/api/berita?limit=3` | Ambil berita terbaru untuk landing |
-| `GET`  | `/api/logbook` | List entri PKL (filter, pagination) |
-| `POST` | `/api/logbook` | Simpan entri PKL baru |
-| `DELETE`| `/api/logbook/:id` | Hapus entri (admin) |
 | `POST` | `/api/chatbot` | Chatbot request (rule‑based → Gemini fallback) |
 | `POST` | `/api/upload` | Upload gambar/file (category) |
 | `GET`  | `/api/health` | Health‑check |
@@ -212,19 +194,17 @@ export interface PaginatedResponse<T> extends ApiResponse<T[]> {
 | `POST/PUT/DELETE` | `/api/admin/blud` | CRUD produk BLUD |
 | `PATCH` | `/api/admin/ppdb/:id` | Update status PPDB |
 | `PATCH` | `/api/admin/pembayaran/:id` | Update status pembayaran |
-| `DELETE`| `/api/admin/logbook/:id` | Hapus entri logbook |
 
 ---
 
 ## 6. Data Seed Requirements (Wajib Sebelum Phase 1)
 | Item | Contoh File | Keterangan |
 |------|-------------|------------|
-| **Mitra PKL** | `frontend/data/mitra.json` | Minimal 6 (1 per jurusan), ideal 12+ |
+| **Mitra Industri** | `frontend/data/mitra.json` | Minimal 6 (1 per jurusan), ideal 12+ |
 | **Deskripsi Jurusan** | `data/jurusan.json` | 6 jurusan, singkat + lengkap |
 | **Testimoni Alumni** | `data/testimoni.json` | ≥4 real alumni |
 | **Produk BLUD** | `data/produk-blud.json` | 6 produk (1 per jurusan) |
 | **Berita / Artikel** | `data/berita.json` | ≥3, dengan `slug` & `publishedAt` |
-| **Contoh Logbook** | `data/logbook-contoh.json` | 2‑3 entri, `isContoh:true` |
 | **Admin Default** | `data/admin.json` | `{ "username": "admin", "password": "<plain>" }` (hashed via seed) |
 | **5 Logo Kompetisi** | `public/images/logo/kompetisi/` | PNG/SVG, transparent |
 | **Rekening PPDB** | `data/rekening.json` | { bank, nomor, atasNama, nominal } |
@@ -247,15 +227,12 @@ export interface PaginatedResponse<T> extends ApiResponse<T[]> {
 ---
 
 ## 8. Sprint Timeline (8 Weeks) – Menggabungkan Opencode & Claude
-| Sprint | Minggu | Fokus | Deliverables Utama |
-|-------|-------|------|-------------------|
-| **Phase 0** | 1 | Foundation | Monorepo, Prisma schema, Next.js + Express running, middleware, design tokens, PM2 config |
-| **Phase 1** | 2‑3 | PPDB Core (subdomain) | 4‑step wizard, nomor pendaftaran, konfirmasi pembayaran, WA integration |
-| **Phase 2** | 3‑4 | Domain‑main Core | Landing page, BLUD showcase, Direktori Mitra, Jurusan pages, SEO config |
-| **Phase 3** | 4‑5 | Interactive Features | Logbook tabs, Chatbot (rule‑based + Gemini), WA escalation button |
-| **Phase 4** | 5‑6 | Admin Panel | Login, Dashboard, CRUD Berita & BLUD, PPDB & pembayaran verification, Logbook moderation |
-| **Phase 5** | 6‑7 | Polish & Deploy | Load test (`autocannon`), Lighthouse ≥ 90, image optimisation, SSL via Nginx |
-| **Phase 6** | 8 | Buffer & Demo Prep | Bug fixes, final seeding, pitch‑deck, mentor sign‑off |
+| **Sprint (Minggu)** | **Padanan Phase** | **Fokus Utama** | **Deliverables Utama** |
+|---|---|---|---|
+| **Sprint 1** (Minggu 1) | **Phase 0** (Foundation) | Setup Monorepo, PostgreSQL Prisma, Auth Session, Subdomain Middleware | Repository flat, schema Prisma PostgreSQL, Next.js 15 & Express 5 running, token OKLCH, Session Auth |
+| **Sprint 2** (Minggu 2) | **Phase 1 & 2** (PPDB & Core Content) | PPDB Subdomain Multi-Step, Pembayaran WA, Landing Page & BLUD/Mitra | Form Wizard 4-step (`ppdb.*`), nomor unik, konfirmasi bayar WA, showcase BLUD (`/blud`), direktori mitra (`/mitra-industri`) |
+| **Sprint 3** (Minggu 3) | **Phase 3 & 4** (Interactive & Admin) | Chatbot Hybrid, Admin Panel Dashboard | Chatbot FAQ Gemini, Panel Admin (`/admin`), verifikasi PPDB/Bayar, moderasi content |
+| **Sprint 4** (Minggu 4) | **Phase 5 & 6** (Polish & Deployment) | Technical SEO, Load Test, VPS Deploy & Demo Prep | `sitemap.xml`, `robots.txt`, Lighthouse SEO ≥ 90, `autocannon` load test, Nginx SSL VPS deploy, pitch deck, mentor sign‑off |
 
 ---
 
@@ -283,7 +260,7 @@ export interface PaginatedResponse<T> extends ApiResponse<T[]> {
 |--------|--------|----------|
 | DNS subdomain belum ready | PPDB tidak dapat diakses | Fallback route `/ppdb/daftar` pada domain utama |
 | Gemini rate‑limit | Chatbot fallback tidak tersedia | Rule‑based layer 1 menjawab ≥ 80 % FAQ; fallback UI static message + WA button |
-| SQLite write lock under load | Slow response | WAL mode (`PRAGMA journal_mode=WAL`) di‑prisma, dan batch insert pada logbook |
+| PostgreSQL connection pool limit | Database error | Gunakan connection limit di `DATABASE_URL` (`?connection_limit=20`) |
 | VPS RAM terbatas (1‑2 GB) | Next.js + Express mepet | Static generation where possible, image compression, limit PM2 to 1 instance each |
 | Tim tidak aktif | Fitur terlambat | Prioritas: Phase 1 → Phase 2 → Phase 3 → Phase 4, dan mock API stubs untuk FE unblock |
 
