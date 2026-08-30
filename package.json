@@ -1,0 +1,23 @@
+{
+  "name": "mutuharjo-hub-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Mutuharjo Hub - Monorepo SMK Muhammadiyah 1 Sukoharjo",
+  "scripts": {
+    "dev": "pnpm --parallel --recursive run dev",
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev:backend": "pnpm --filter backend dev",
+    "build": "pnpm --recursive run build",
+    "lint": "pnpm --recursive run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "typecheck": "pnpm --recursive run typecheck"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2"
+  },
+  "engines": {
+    "node": ">=18.18.0",
+    "pnpm": ">=8.0.0"
+  }
+}

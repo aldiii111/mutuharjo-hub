@@ -2,6 +2,10 @@
 
 Dokumen ini berisi standar penulisan kode (*coding standards*) yang wajib dipatuhi oleh seluruh pengembang pada repositori **Mutuharjo Hub (SMK Muhammadiyah 1 Sukoharjo)**.
 
+> **v1.1** — menambahkan pengecualian penamaan file untuk `components/ui/` dan
+> memperjelas path folder komponen fitur, mengikuti audit konsistensi terhadap
+> `ui-context.md`.
+
 ---
 
 ## 1. Monorepo & Struktur Folder
@@ -10,27 +14,39 @@ Repositori menggunakan struktur **Monorepo Flat**:
 ```
 school-web-contest/
 ├── frontend/             # Next.js 15 (App Router)
-│   ├── app/              # Routes & Pages
-│   │   ├── (main)/       # Route group domain utama (smkmuh1-skh.sch.id)
-│   │   └── ppdb-subdomain/ # Subdomain route folder (ppdb.smkmuh1-skh.sch.id)
-│   ├── components/       # Component primitives & feature components
-│   │   ├── ui/           # Shadcn UI primitives (button, card, dialog, input, etc.)
-│   │   └── features/     # Feature-specific components (ppdb, blud, chatbot)
-│   ├── data/             # Static JSON seed files (mitra.json, jurusan.json, etc.)
-│   ├── lib/              # FE Utilities, lib/utils.ts (cn helper), Zod schemas, FAQ data
-│   └── middleware.ts     # Next.js Subdomain Host Rewrite Middleware
-├── backend/              # Express.js 5 + TypeScript
+│   ├── app/               # Routes & Pages
+│   │   ├── (main)/        # Route group domain utama (smkmuh1-skh.sch.id)
+│   │   └── ppdb-subdomain/ # Subdomain route folder (ppdb.smkmuh1-skh.sch.id) — folder fisik, BUKAN route group
+│   ├── components/        # Component primitives & feature components
+│   │   ├── ui/             # Shadcn UI primitives (button.tsx, card.tsx, dialog.tsx, input.tsx, dst — lowercase, lihat §2.C)
+│   │   └── features/       # Feature-specific components, PascalCase, per domain:
+│   │       ├── ppdb/        # Stepper.tsx, FormStep1.tsx, ReviewCard.tsx
+│   │       ├── blud/        # ProdukCard.tsx, ProdukDetailModal.tsx
+│   │       ├── mitra/       # MitraCard.tsx
+│   │       ├── chatbot/     # ChatWidget.tsx, ChatBubble.tsx, TypingIndicator.tsx
+│   │       ├── admin/       # AdminTaskSummary.tsx, DataTable.tsx
+│   │       └── forms/       # Input.tsx, Select.tsx, FileUpload.tsx
+│   ├── data/              # Static JSON seed files (mitra.json, jurusan.json, etc.)
+│   ├── lib/                # FE Utilities, lib/utils.ts (cn helper), Zod schemas, FAQ data
+│   └── middleware.ts       # Next.js Subdomain Host Rewrite Middleware
+├── backend/               # Express.js 5 + TypeScript
 │   ├── src/
-│   │   ├── controllers/  # Request handlers
-│   │   ├── services/     # Business logic & Prisma queries
-│   │   ├── middlewares/  # Auth, Session, Upload, Validation
-│   │   ├── routes/       # API route definitions
-│   │   └── index.ts      # Server entry point
-│   ├── prisma/           # Schema, seed (admin.json), & migrations (PostgreSQL)
-│   └── uploads/          # Physical file uploads (served by Nginx/Express)
-└── shared/               # Shared TypeScript types & contracts
-    └── types/            # API response interfaces, Enums
+│   │   ├── controllers/    # Request handlers
+│   │   ├── services/       # Business logic & Prisma queries
+│   │   ├── middlewares/    # Auth, Session, Upload, Validation
+│   │   ├── routes/         # API route definitions
+│   │   └── index.ts        # Server entry point
+│   ├── prisma/             # Schema, seed (admin.json), & migrations (PostgreSQL)
+│   └── uploads/            # Physical file uploads (served by Nginx/Express)
+└── shared/                # Shared TypeScript types & contracts
+    └── types/              # API response interfaces, Enums
 ```
+
+> **Perbaikan v1.1:** sebelumnya `ui-context.md` §5 mendaftarkan `Stepper` di
+> `components/ppdb/Stepper.tsx` dan `ChatWidget` di `components/chatbot/ChatWidget.tsx`
+> — tanpa segmen `features/`, tidak sinkron dengan struktur di atas. Path yang benar
+> sudah dicontohkan langsung di pohon folder ini per-domain, dan `ui-context.md`
+> sudah disamakan.
 
 ---
 
@@ -46,14 +62,20 @@ school-web-contest/
   - Global Top Loading Progress Bar (`TopLoaderBar.tsx` / `ajaxify-progress-bar`).
 
 ### B. Design System & CSS
-- Semua warna **WAJIB** mengonsumsi CSS variables / OKLCH Tokens dari `design-system/master.md` (`bg-primary`, `text-surface`, `border-border`, dll.).
+- Semua warna **WAJIB** mengonsumsi CSS variables / OKLCH Tokens dari `design-system/master.md` (`bg-primary`, `text-surface`, `border-border`, `bg-danger`, `bg-success`, dll — versi token sudah diperbaiki di v1.1, jangan pakai nilai lama yang mungkin masih ter-cache).
 - **DILARANG HARDBOUND HEX COLOR** (misal `#ffffff` atau `#000000` secara langsung di className).
-- Font family utama: `Plus Jakarta Sans` (`--font-sans`).
+- Font family: `Plus Jakarta Sans` (`--font-body`, teks umum) dan `DM Sans` (`--font-heading`, `h1`–`h3` serta angka statistik besar).
 - Radius maksimal pada container/card: `rounded-lg` (12px / `--radius-lg`).
 
 ### C. Standar Penggunaan Shadcn UI & Tailwind CSS
 - **Inisialisasi CLI**: Gunakan `npx shadcn@latest init` dengan konfigurasi OKLCH CSS Variables.
-- **Komponen Primitive**: Ditambahkan via CLI ke `frontend/components/ui/` (`npx shadcn@latest add button card dialog input select table badge tabs toast`).
+- **Komponen Primitive**: Ditambahkan via CLI ke `frontend/components/ui/` (`npx shadcn@latest add button card dialog input select table badge toast`).
+- **Pengecualian penamaan file di `components/ui/`**: file hasil generate CLI
+  memakai lowercase (`button.tsx`, `card.tsx`, `table.tsx`, dst) — ini konvensi
+  bawaan shadcn dan **sengaja tidak di-rename** ke PascalCase, supaya tetap
+  kompatibel dengan `shadcn add`/`shadcn diff` saat update di kemudian hari.
+  Aturan PascalCase di §6 berlaku untuk **semua komponen di luar `components/ui/`**,
+  termasuk seluruh isi `components/features/`.
 - **Utilitas `cn()`**: Semua penambahan dynamic class **WAJIB** menggunakan helper `cn()` dari `frontend/lib/utils.ts`:
   ```ts
   import { clsx, type ClassValue } from 'clsx';
@@ -64,6 +86,12 @@ school-web-contest/
   }
   ```
 - **Kustomisasi Variant**: Gunakan `cva` (*Class Variance Authority*) untuk mengelola varian warna (`primary`, `secondary`, `destructive`, `outline`) dan ukuran (`sm`, `md`, `lg`).
+- **Wajib untuk Toast & Badge**: primitive bawaan shadcn/Radix hanya punya
+  `variant="default"|"destructive"` untuk Toast, bukan `type="success"|"error"|"info"`
+  seperti yang didokumentasikan di `ui-context.md` §5. Bungkus primitive tersebut
+  dengan layer `cva` custom yang memetakan tiap varian aplikasi (`success`,
+  `danger`, `warning`, `info`) ke token warna yang sesuai — jangan asumsikan prop
+  ini otomatis tersedia begitu `shadcn add toast badge` dijalankan.
 
 ### D. Form & Validasi Client-Side
 - Semua form (PPDB, Konfirmasi Bayar) **WAJIB** di-validasi menggunakan **Zod** + **React Hook Form**.
@@ -73,6 +101,10 @@ school-web-contest/
 - Semua elemen tombol/link interaktif harus memiliki `focus-visible:ring-2 focus-visible:ring-primary`.
 - Semua ikon SVG harus menyertakan `aria-label` atau `aria-hidden="true"`.
 - Semua gambar (`<Image />` Next.js) **WAJIB** menyertakan teks `alt` yang deskriptif.
+- Rasio kontras token warna (terutama `danger`/`success` di atas `surface`/`background`)
+  **wajib diverifikasi aktual** saat token pertama kali di-setup (Task 1.2), bukan
+  ditunda sampai audit aksesibilitas di Sprint 4 — supaya tidak perlu styling ulang
+  komponen yang sudah terlanjur dibangun di atas token yang salah.
 
 ---
 
@@ -105,8 +137,7 @@ school-web-contest/
 Seluruh respon API backend **WAJIB** membungkus payload menggunakan tipe generik `ApiResponse<T>` yang didefinisikan di `shared/types/api.types.ts`:
 
 ```ts
-// Shared API Response Format
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   error?: string;
@@ -167,7 +198,8 @@ Contoh respon error:
 
 | Subjek | Konvensi | Contoh |
 |---|---|---|
-| Komponen React | `PascalCase` | `Button.tsx`, `Stepper.tsx`, `ChatWidget.tsx` |
+| Komponen React (`components/features/`) | `PascalCase` | `Stepper.tsx`, `ChatWidget.tsx`, `ProdukCard.tsx` |
+| Komponen primitive (`components/ui/`) | `lowercase` (pengecualian, konvensi bawaan shadcn — lihat §2.C) | `button.tsx`, `card.tsx`, `table.tsx` |
 | Route File / Directory | `kebab-case` | `app/(main)/blud/page.tsx`, `app/sitemap.ts` |
 | Utilities / Helper File | `kebab-case` | `lib/faq-data.ts`, `lib/validations.ts` |
 | Variabel & Fungsi | `camelCase` | `handleSubmit()`, `nomorPendaftaran`, `isLoading` |
@@ -190,3 +222,16 @@ Tipe commit yang diizinkan:
 - `style`: Perubahan format tampilan / CSS tanpa mengubah logika (contoh: `style: penyesuaian margin footer`).
 - `refactor`: Restrukturisasi kode tanpa mengubah fungsionalitas (contoh: `refactor: ekstrak hook useFormWizard`).
 - `chore`: Tugas pemeliharaan build, paket, atau konfigurasi (contoh: `chore: install connect-pg-simple`).
+
+---
+
+## 8. Aturan Ketat Type Safety & Clean Code (Strict Rules)
+
+1. **DILARANG MENGGUNAKAN TIPE `any` (`no-explicit-any`)**:
+   - Seluruh kode pada `shared/`, `frontend/`, dan `backend/` **DILARANG KERAS** menggunakan tipe `any` (termasuk `T = any`, `(data: any)`, atau `Record<string, any>`).
+   - Gunakan tipe data spesifik, interfaces, generics (`<T = unknown>`), atau `unknown` dengan type narrowing / type guard.
+
+2. **DILARANG MENGGUNAKAN KOMENTAR BARIS SLASH (`no-slash-comments`)**:
+   - **DILARANG KERAS** menulis komentar baris tunggal (`//`) atau komentar multi-baris (`/* ... */`) di dalam file kode sumber (`.ts`, `.tsx`, `.js`, `.jsx`).
+   - Kode sumber harus ditulis secara *self-documenting* melalui penamaan variabel, fungsi, tipe, dan komponen yang jelas, intuitif, serta deskriptif.
+

@@ -15,6 +15,12 @@
 > yang lebih menarik dan matang. Anggap wireframe di sini sebagai "kerangka fungsi",
 > bukan "cetak biru visual".
 
+> **v1.1 — Perbaikan penomoran fitur:** versi sebelumnya menyebut Panel Admin
+> sebagai "Fitur #9" di dua tempat (Fitur #2 dan Fitur #3), padahal Panel Admin
+> adalah **Fitur #8** (lihat judul section-nya sendiri, dan konsisten dengan
+> `mvp.md`). Fitur #9 yang sebenarnya adalah Technical SEO. Sudah diperbaiki di
+> seluruh dokumen ini — lihat audit konsistensi untuk detail.
+
 Setiap fitur ditulis dengan format konsisten: Konsep → Alur Pengguna → Wireframe →
 Data Model → API Routes → Validasi/Edge Case → Integrasi → Definition of Done.
 
@@ -168,7 +174,7 @@ yang jelas dan terhubung otomatis ke WhatsApp admin. Fitur ini tetap berada di
    [nomor] sudah transfer Rp[nominal], bukti terlampir di sistem."*
 5. Status berubah jadi **"Menunggu Verifikasi"**, terlihat saat calon siswa cek status
    di `ppdb.smkmuh1-skh.sch.id/status?no=SPMB-2026-XXXX`
-6. Admin verifikasi manual via panel admin (Fitur #9, di **domain utama**), update
+6. Admin verifikasi manual via panel admin (**Fitur #8**, di **domain utama**), update
    status jadi "Terverifikasi" atau "Ditolak"
 
 ## Wireframe
@@ -224,7 +230,7 @@ model KonfirmasiBayar {
 
 ## Integrasi
 Terhubung langsung ke `PendaftarPPDB` (Fitur #1) via relasi 1-1. Status yang diupdate
-admin (Fitur #9 di domain utama) langsung tercermin saat calon siswa cek status di subdomain
+admin (**Fitur #8** di domain utama) langsung tercermin saat calon siswa cek status di subdomain
 — karena keduanya berbagi 1 database yang sama.
 
 ## Definition of Done
@@ -249,7 +255,7 @@ publik yang sudah ada (deskripsi jurusan, galeri foto).
    asal, estimasi (jika ada)
 4. Tombol **"Tanya Ketersediaan via WhatsApp"** — pesan pre-filled: *"Halo, saya
    tertarik dengan [nama produk/jasa], apakah masih tersedia?"*
-5. Data diinput/dikelola admin sekolah lewat panel admin (Fitur #9)
+5. Data diinput/dikelola admin sekolah lewat panel admin (**Fitur #8**)
 
 ## Wireframe
 ```
@@ -285,7 +291,7 @@ model ProdukBLUD {
 |---|---|---|
 | `GET` | `/api/blud?jurusan=` | List produk, filter opsional |
 | `GET` | `/api/blud/:id` | Detail 1 produk |
-| `POST/PUT/DELETE` | `/api/admin/blud` | CRUD oleh admin (Fitur #9) |
+| `POST/PUT/DELETE` | `/api/admin/blud` | CRUD oleh admin (**Fitur #8**) |
 
 ## Validasi & Edge Cases
 | Kasus | Penanganan |
@@ -294,7 +300,7 @@ model ProdukBLUD {
 | Gambar gagal dimuat | Tampilkan placeholder gambar default per kategori jurusan |
 
 ## Integrasi
-Gambar memakai sistem upload reusable (kategori `produk`), dikelola lewat Fitur #9.
+Gambar memakai sistem upload reusable (kategori `produk`), dikelola lewat **Fitur #8**.
 
 ## Definition of Done
 - [ ] Grid produk tampil rapi dengan filter jurusan berfungsi
@@ -388,13 +394,14 @@ Kapabilitas rekomendasi jurusan (menggantikan fitur Quiz) terintegrasi di sini.
    — kalau ada match, jawab instan tanpa API call
 5. **Layer 2 (Fallback Gemini, opsional):** kalau tidak ada match di Layer 1, kirim
    pertanyaan ke Gemini API dengan system prompt berisi seluruh FAQ + deskripsi 6
-   jurusan sebagai context
+   jurusan sebagai context — tampilkan `TypingIndicator` selama menunggu (bisa sampai
+   3 detik) agar pengguna tidak mengira widget freeze
 6. **Kapabilitas rekomendasi jurusan:** kalau pertanyaan mengandung kata kunci minat
    ("suka", "minat", "cocok jurusan apa", dll) → bot merespons dengan 2-3 pertanyaan
    ringan balik, lalu memberi rekomendasi jurusan + alasan singkat berdasarkan jawaban
 7. **Kalau Gemini API gagal/limit habis:** fallback ke jawaban default — *"Maaf, saya
-   belum bisa jawab pertanyaan itu"* — dan tombol eskalasi WA (Fitur #7) otomatis
-   muncul lebih menonjol (Fitur #6)
+   belum bisa jawab pertanyaan itu"* — dan tombol eskalasi WA (Fitur #6) otomatis
+   muncul lebih menonjol
 
 ## Wireframe
 ```
@@ -455,7 +462,7 @@ Terhubung ke Fitur #6 (tombol eskalasi) sebagai bagian dari panel widget yang sa
 ## Definition of Done
 - [ ] Widget muncul konsisten di semua halaman (domain utama & subdomain)
 - [ ] Layer 1 rule-based menjawab FAQ umum dengan akurat
-- [ ] Fallback ke Gemini berjalan tanpa crash jika API gagal
+- [ ] Fallback ke Gemini berjalan tanpa crash jika API gagal, dengan typing indicator selama menunggu
 - [ ] Kapabilitas rekomendasi jurusan berfungsi untuk pertanyaan minat/kepribadian
 - [ ] Tombol eskalasi WA muncul saat bot tidak bisa menjawab
 
@@ -506,13 +513,16 @@ partner), dengan identitas visual sendiri (anti-cliché, lihat Constitution 2.4)
 ## Alur Pengguna (Struktur Halaman, Single Scroll)
 1. **Hero Section:** headline utama + CTA "Daftar PPDB" (mengarah ke `/ppdb` info,
    BUKAN langsung ke subdomain) + statistik (jumlah Jurusan, Siswa Aktif, Alumni)
-2. **Section Program Keahlian:** 6 kartu jurusan (TSM, TJKT, TP, TKR, PPLG, TE),
+2. **Section Jadwal & Cara Daftar (ringkas):** 3 langkah singkat + CTA ke `/ppdb` —
+   ditambahkan agar jalur konversi utama tidak hanya tersirat lewat link navbar
+   (lihat `ui-context.md` §6 untuk detail visual)
+3. **Section Program Keahlian:** 6 kartu jurusan (TSM, TJKT, TP, TKR, PPLG, TE),
    klik → halaman detail `/jurusan/[slug]`
-3. **Section Testimoni Alumni:** 4 testimoni asli (data dari web lama)
-4. **Section Kerjasama Industri:** logo partner + deskripsi singkat kolaborasi
-5. **Section Berita Terbaru:** grid 3 artikel terbaru (opsional load dari database)
-6. **Section Fasilitas:** Wifi, CCTV, Lab Komputer, Bengkel
-7. **Footer:** menu lengkap, kontak, sosial media, **5 logo wajib kompetisi**, link
+4. **Section Testimoni Alumni:** 4 testimoni asli (data dari web lama)
+5. **Section Kerjasama Industri:** logo partner + deskripsi singkat kolaborasi
+6. **Section Berita Terbaru:** grid 3 artikel terbaru (opsional load dari database)
+7. **Section Fasilitas:** Wifi, CCTV, Lab Komputer, Bengkel
+8. **Footer:** menu lengkap, kontak, sosial media, **5 logo wajib kompetisi**, link
    Syarat & Ketentuan + Kebijakan Privasi
 
 ## Wireframe (Struktur Section, Bukan Detail Visual)
@@ -521,6 +531,8 @@ partner), dengan identitas visual sendiri (anti-cliché, lihat Constitution 2.4)
 |  [Navbar sticky + CTA Daftar PPDB]       |
 +-----------------------------------------+
 |  HERO: Headline + Statistik              |
++-----------------------------------------+
+|  JADWAL & CARA DAFTAR (3 langkah + CTA)  |
 +-----------------------------------------+
 |  PROGRAM KEAHLIAN (6 kartu)              |
 +-----------------------------------------+
@@ -537,11 +549,13 @@ partner), dengan identitas visual sendiri (anti-cliché, lihat Constitution 2.4)
 ```
 *(Wireframe ilustratif — ini hanya urutan section, BUKAN desain final. Tim UI/UX
 bebas menentukan gaya visual tiap section: layout grid vs carousel, animasi scroll,
-komposisi gambar, dsb — selama tetap sesuai design system anti-cliché)*
+komposisi gambar, dsb — selama tetap sesuai design system anti-cliché. Section
+"Jadwal & Cara Daftar" ditambahkan di v1.1 sebagai titik konversi eksplisit —
+lihat catatan di `mvp.md` §5 Sprint 2 untuk task pembangunannya)*
 
 ## Data Model
 Sebagian besar konten statis/hardcoded di komponen. Opsional terhubung ke database
-untuk Berita (model `Berita`, dikelola via Fitur #8).
+untuk Berita (model `Berita`, dikelola via **Fitur #8**).
 
 ## API Routes
 | Method | Route | Fungsi |
@@ -561,6 +575,7 @@ Halaman ini adalah pusat navigasi ke semua fitur lain, termasuk halaman info PPD
 ## Definition of Done
 - [ ] Semua section tampil sesuai urutan, responsive mobile
 - [ ] Semua menu navigasi berfungsi (tidak ada lagi link mati)
+- [ ] Section "Jadwal & Cara Daftar" tampil sebagai titik konversi eksplisit sebelum statistik/jurusan
 - [ ] Footer lengkap dengan 5 logo wajib + halaman legal
 - [ ] Sesuai design system anti-cliché
 
@@ -578,8 +593,9 @@ data yang masuk dari subdomain PPDB juga.
 1. Admin buka `smkmuh1-skh.sch.id/admin/login` → isi username & password → submit
 2. Sistem validasi terhadap tabel `Admin` (password di-hash via bcrypt) → jika benar,
    set session cookie → redirect ke `/admin/dashboard`
-3. Dashboard menampilkan **sidebar menu**: Berita, Produk BLUD, Data PPDB, Konfirmasi
-   Pembayaran
+3. Dashboard menampilkan **widget ringkasan tugas** (mis. "X pembayaran menunggu
+   verifikasi") di atas, lalu **sidebar menu**: Berita, Produk BLUD, Data PPDB,
+   Konfirmasi Pembayaran
 4. **Berita & Produk BLUD:** CRUD penuh (Tambah/Edit/Hapus) dengan form + upload gambar
 5. **Data PPDB & Konfirmasi Pembayaran:** lihat list + update status saja
 6. Tombol Logout di header → hapus session cookie → redirect ke login
@@ -587,16 +603,20 @@ data yang masuk dari subdomain PPDB juga.
 ## Wireframe
 ```
 +--------+------------------------------+
-| Sidebar | Kelola Produk BLUD  [+Tambah]|
-| Berita  | +--------------------------+ |
-| BLUD    | | Nama | Jurusan | Aksi     | |
-| PPDB    | | Servis Motor | TSM | E/H  | |
-| Bayar   | | Aplikasi X | PPLG | E/H   | |
-| [Logout]| +--------------------------+ |
+| Sidebar | [Widget: 5 Pembayaran       |
+| Berita  |  Menunggu Verifikasi]       |
+| BLUD    | Kelola Produk BLUD  [+Tambah]|
+| PPDB    | +--------------------------+ |
+| Bayar   | | Nama | Jurusan | Aksi     | |
+| [Logout]| | Servis Motor | TSM | E/H  | |
+|         | | Aplikasi X | PPLG | E/H   | |
+|         | +--------------------------+ |
 +--------+------------------------------+
 ```
 *(Wireframe ilustratif — layout dashboard, warna sidebar, dan gaya tabel bebas
-disesuaikan tim UI/UX; boleh dibuat lebih modern dengan card summary di atas tabel)*
+disesuaikan tim UI/UX; widget ringkasan tugas ditambahkan di v1.1 agar admin punya
+entry point berbasis prioritas kerja, bukan cuma tabel generik yang harus disaring
+manual)*
 
 ## Data Model
 ```prisma
@@ -631,7 +651,8 @@ data PPDB dari subdomain — mungkin lewat 1 database bersama), dan Fitur #7 (ke
 ## Definition of Done
 - [ ] Login/logout berfungsi dengan session sederhana
 - [ ] CRUD Berita & Produk BLUD lengkap
-- [ ] Admin bisa update status PPDB & Pembayaran (data dari subdomain terlihat di sini)
+- [ ] Admin bisa update status PPDB & Pembayaran (data dari subdomain terlihat di sini), dengan badge status memakai token `danger`/`success` yang sudah diperbaiki
+- [ ] Widget ringkasan tugas menampilkan jumlah item yang menunggu verifikasi
 - [ ] Semua route admin terproteksi dari akses tanpa login
 
 ---

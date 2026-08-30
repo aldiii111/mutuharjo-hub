@@ -1,8 +1,14 @@
 # MVP Plan – Mutuharjo Hub (SMK Muhammadiyah 1 Sukoharjo)
 
-> **Dokumen Acuan:** `project-overview.md` &amp; `architecture.md`  
-> **Identitas Resmi:** SMK Muhammadiyah 1 Sukoharjo (SMK Mutuharjo)  
-> **Nama Produk:** Mutuharjo Hub  
+> **Dokumen Acuan:** `project-overview.md` &amp; `architecture.md`
+> **Identitas Resmi:** SMK Muhammadiyah 1 Sukoharjo (SMK Mutuharjo)
+> **Nama Produk:** Mutuharjo Hub
+
+> **v1.1** — menambahkan task eksplisit untuk membangun section-section Landing
+> Page (F7) dan halaman detail jurusan di Sprint 2. Sebelumnya `architecture.md`
+> menyebut "Landing Page" sebagai fokus Sprint 2, tapi tidak ada task granular
+> untuk itu di dokumen ini — hanya Navbar/Footer (Task 1.4). Lihat audit
+> konsistensi untuk detail.
 
 ---
 
@@ -153,9 +159,9 @@ Target pengerjaan dibagi menjadi **4 Sprint Intensif (4 Minggu)** yang mencakup 
 ### Sprint 1: Fondasi Arsitektur, Monorepo &amp; Database (Phase 0 — Hari 1–4)
 
 - **Task 1.1** (All Devs | Est: 3h) – **Inisialisasi Monorepo Flat**: Buat struktur folder `frontend/`, `backend/`, `shared/`, serta setup TypeScript, ESLint, dan Prettier global.
-- **Task 1.2** (Dev FE | Est: 4h) – **Setup Frontend Next.js 15 App Router**: Inisialisasi `frontend/` dengan Next.js 15, Shadcn UI (`npx shadcn@latest init`), Tailwind CSS v4 OKLCH tokens, dan font `Plus Jakarta Sans`.
+- **Task 1.2** (Dev FE | Est: 5h) – **Setup Frontend Next.js 15 App Router & Token Desain**: Inisialisasi `frontend/` dengan Next.js 15, Shadcn UI (`npx shadcn@latest init`), Tailwind CSS v4 OKLCH tokens (**termasuk nilai `--color-danger` dan `--color-success` versi diperbaiki v1.1 — lihat `design-system/master.md` §1**), font `Plus Jakarta Sans` + `DM Sans`, dan verifikasi kontras aktual untuk token `danger`/`success` sebelum lanjut ke task berikutnya.
 - **Task 1.3** (Dev FE | Est: 3h) – **Middleware Subdomain Host Rewrite**: Implementasi `frontend/middleware.ts` untuk memetakan permintaan `ppdb.smkmuh1-skh.sch.id` secara internal ke `app/ppdb-subdomain/`.
-- **Task 1.4** (Dev FE | Est: 4h) – **Layout Utama &amp; Komponen Dasar**: Buat komponen `Navbar`, `Footer` (menampilkan **5 Logo Kompetisi Wajib**: JHIC, Kemenag, Muhammadiyah, Sponsor, Media), `TopLoaderBar` (`ajaxify-progress-bar` di `RootLayout`), dan `Container` terpusat (`max-w-7xl`).
+- **Task 1.4** (Dev FE | Est: 4h) – **Layout Utama &amp; Komponen Dasar**: Buat komponen `Navbar` (termasuk link "Tentang" &amp; "Berita"), `Footer` (menampilkan **5 Logo Kompetisi Wajib**: JHIC, Kemenag, Muhammadiyah, Sponsor, Media), `TopLoaderBar` (`ajaxify-progress-bar` di `RootLayout`), dan `Container` terpusat (`max-w-7xl`).
 - **Task 1.5** (Dev BE-1 | Est: 4h) – **Setup Express 5 Server**: Inisialisasi Express.js 5 TypeScript di `backend/` dan tipe bersama `shared/types/api.types.ts` (`ApiResponse\<T\>` &amp; `PaginatedResponse\<T\>`).
 - **Task 1.6** (Dev BE-1 | Est: 5h) – **Integrasi Prisma ORM PostgreSQL**: Tulis `schema.prisma` utuh untuk 7 model (`PendaftarPPDB`, `KonfirmasiBayar`, `ProdukBLUD`, `Berita`, `Admin`, `ChatLog`, `UploadedFile`), lalu jalankan `npx prisma migrate dev`.
 - **Task 1.7** (Dev BE-1 | Est: 4h) – **Setup Auth Session Admin**: Inisialisasi Express session dengan `connect-pg-simple` (PostgreSQL store), Bcrypt password hashing, dan `requireAdminSession` middleware.
@@ -165,10 +171,10 @@ Target pengerjaan dibagi menjadi **4 Sprint Intensif (4 Minggu)** yang mencakup 
 
 ---
 
-### Sprint 2: Core Subdomain PPDB &amp; Feature Services (Phase 1 &amp; 2 — Hari 5–9)
+### Sprint 2: Core Subdomain PPDB, Landing Page &amp; Feature Services (Phase 1 &amp; 2 — Hari 5–9)
 
 - **Task 2.1** (Dev FE | Est: 4h) – **Halaman Informasi PPDB (`/ppdb`)**: Buat halaman informasi pendaftaran di domain utama (jadwal, syarat, biaya Rp 100.000, infografis timeline 5 tahap) + tombol CTA "Daftar Sekarang" ke subdomain.
-- **Task 2.2** (Dev FE | Est: 6h) – **Form Wizard 4-Step Subdomain (`ppdb.*`)**: Buat form bertahap (Step 1 Data Diri, Step 2 Ortu, Step 3 Pilihan 6 Jurusan CoE, Step 4 Review &amp; Checklist berkas fisik) menggunakan Zod + React Hook Form + Shadcn UI.
+- **Task 2.2** (Dev FE | Est: 6h) – **Form Wizard 4-Step Subdomain (`ppdb.*`)**: Buat form bertahap (Step 1 Data Diri, Step 2 Ortu, Step 3 Pilihan 6 Jurusan CoE, Step 4 Review &amp; Checklist berkas fisik) menggunakan Zod + React Hook Form + Shadcn UI, dengan `aria-current="step"` dan indikasi visual step yang belum lengkap/error.
 - **Task 2.3** (Dev FE | Est: 4h) – **Autosave Draft &amp; Bukti Pendaftaran PDF**: Integrasi `localStorage` autosave antar-step agar data tidak hilang saat refresh, serta buat komponen cetak/unduh PDF "Bukti Pendaftaran".
 - **Task 2.4** (Dev FE | Est: 4h) – **Halaman Konfirmasi Pembayaran &amp; Cek Status**: Buat halaman `ppdb.*/konfirmasi` (info rekening &amp; form upload bukti) dan `ppdb.*/status` (real-time status pendaftaran).
 - **Task 2.5** (Dev BE-1 | Est: 5h) – **Endpoint Submit PPDB (`POST /api/ppdb`)**: Validasi Zod (NISN 10 digit, No HP 08xx), cek keunikan NISN, dan generate nomor pendaftaran unik `SPMB-2026-XXXX`.
@@ -176,15 +182,19 @@ Target pengerjaan dibagi menjadi **4 Sprint Intensif (4 Minggu)** yang mencakup 
 - **Task 2.7** (Dev BE-1 | Est: 4h) – **Endpoint Konfirmasi Bayar (`POST /api/pembayaran` &amp; `GET /api/pembayaran/:nomorPendaftaran`)**: Simpan data pembayaran (bukti opsional/non-blocking) &amp; relasikan 1-to-1 dengan `PendaftarPPDB`.
 - **Task 2.8** (Dev BE-2 | Est: 4h) – **Endpoint Showcase BLUD (`GET /api/blud` &amp; `GET /api/blud/:id`)**: Ambil list produk/jasa Teaching Factory dengan filter query `jurusan`.
 - **Task 2.9** (Dev BE-2 | Est: 3h) – **Endpoint Berita Landing (`GET /api/berita?limit=3`)**: Ambil 3 artikel berita terbaru yang sudah dipublikasikan (`isPublished: true`).
+- **Task 2.10** (Dev FE | Est: 6h) – **Landing Page — Hero & Jadwal/Cara Daftar (F7)** *(baru, v1.1)*: Bangun `HeroSection` (headline, CTA "Daftar PPDB" ke `/ppdb`, statistik jumlah jurusan/siswa/alumni, dot-pattern background) dan `PpdbScheduleTeaser` (ringkasan 3 langkah + CTA), sesuai wireframe di `project-overview.md` Fitur #7 dan pola visual di `ui-context.md` §6. Ini titik konversi utama landing page — sebelumnya tidak punya section eksplisit, hanya tersirat lewat link navbar.
+- **Task 2.11** (Dev FE | Est: 6h) – **Landing Page — Jurusan, Testimoni, Kerjasama Industri (F7)** *(baru, v1.1)*: Bangun `JurusanGrid` (data dari `jurusan.json`, layout tidak seragam dengan grid Berita — lihat `ui-context.md` §6), `TestimoniCarousel` (autoplay nonaktif otomatis saat `prefers-reduced-motion`), dan `MitraLogoGrid`/kerjasama industri.
+- **Task 2.12** (Dev FE | Est: 3h) – **Halaman Detail Jurusan (`/jurusan/[slug]`)** *(baru, v1.1)*: Dynamic route detail per jurusan (deskripsi lengkap, keunggulan, mitra DUDI terkait) dari `jurusan.json`, dituju dari klik kartu di `JurusanGrid`.
+- **Task 2.13** (Dev FE | Est: 4h) – **Landing Page — Berita & Fasilitas (F7)** *(baru, v1.1)*: Bangun `BeritaGrid` (1 artikel featured + N kecil, dari `GET /api/berita?limit=3`) dan `FasilitasStrip` (list ikon horizontal, bukan kartu — kontennya terlalu singkat untuk kartu bershadow, lihat `ui-context.md` §6), lengkapi empty state bila data berita belum ada.
 
 ---
 
 ### Sprint 3: Interactive Features, Chatbot &amp; Panel Admin (Phase 3 &amp; 4 — Hari 10–13)
 
-- **Task 3.1** (Dev FE | Est: 4h) – **Halaman Showcase BLUD (`/blud`)**: Buat grid kartu produk Teaching Factory dengan filter chips jurusan (`TSM`, `TJKT`, `TP`, `TKR`, `PPLG`, `TE`), detail modal, dan CTA WhatsApp.
-- **Task 3.2** (Dev FE | Est: 3h) – **Halaman Direktori Mitra PKL (`/mitra-industri`)**: Buat list kartu mitra DUDI per jurusan + CTA "Tanya PKL ke Sekolah" via WhatsApp Admin BKK.
-- **Task 3.3** (Dev FE | Est: 4h) – **Component Floating Chatbot Widget**: Buat panel chat slide-up di pojok kanan bawah, bubble chat, quick replies, dan tombol Eskalasi WA Admin.
-- **Task 3.4** (Dev FE | Est: 6h) – **UI Panel Admin (`/admin`)**: Buat halaman Login (`/admin/login`), Dashboard Sidebar (`/admin/dashboard`), Data Table (Shadcn `Table`), dan modal CRUD.
+- **Task 3.1** (Dev FE | Est: 4h) – **Halaman Showcase BLUD (`/blud`)**: Buat grid kartu produk Teaching Factory dengan filter chips jurusan (`TSM`, `TJKT`, `TP`, `TKR`, `PPLG`, `TE`), detail modal, CTA WhatsApp, dan empty state saat filter tidak menghasilkan produk.
+- **Task 3.2** (Dev FE | Est: 3h) – **Halaman Direktori Mitra PKL (`/mitra-industri`)**: Buat list kartu mitra DUDI per jurusan + CTA "Tanya PKL ke Sekolah" via WhatsApp Admin BKK, dan empty state saat filter kosong.
+- **Task 3.3** (Dev FE | Est: 5h) – **Component Floating Chatbot Widget**: Buat panel chat slide-up di pojok kanan bawah, bubble chat, quick replies, `TypingIndicator` saat menunggu respons Layer 2 (Gemini, bisa sampai 3 detik), dan tombol Eskalasi WA Admin.
+- **Task 3.4** (Dev FE | Est: 7h) – **UI Panel Admin (`/admin`)**: Buat halaman Login (`/admin/login`), Dashboard Sidebar (`/admin/dashboard`) dengan `AdminTaskSummary` (widget ringkasan jumlah pembayaran/pendaftaran menunggu verifikasi) sebagai entry point di atas Data Table (Shadcn `Table`), dan modal CRUD. Badge status memakai token `danger`/`success` versi diperbaiki.
 - **Task 3.5** (Dev BE-1 | Est: 3h) – **Endpoint Auth Admin (`POST /api/auth/login` &amp; `POST /api/auth/logout`)**: Validasi kredensial admin (Bcrypt) dan manajemen session cookie.
 - **Task 3.6** (Dev BE-1 | Est: 4h) – **Endpoint Status Verification (`PATCH /api/admin/ppdb/:id` &amp; `PATCH /api/admin/pembayaran/:id`)**: Admin update status PPDB dan status pembayaran.
 - **Task 3.7** (Dev BE-1 | Est: 5h) – **Endpoint CRUD Berita &amp; BLUD (`/api/admin/berita` &amp; `/api/admin/blud`)**: Endpoint Tambah/Edit/Hapus berita dan produk BLUD terproteksi session admin.
@@ -194,8 +204,8 @@ Target pengerjaan dibagi menjadi **4 Sprint Intensif (4 Minggu)** yang mencakup 
 
 ### Sprint 4: Technical SEO, Load Test, Deploy &amp; Demo Prep (Phase 5 &amp; 6 — Hari 14–16)
 
-- **Task 4.1** (Dev FE | Est: 4h) – **Technical SEO Implementation**: Buat `app/sitemap.ts` (dinamis URL publik), `app/robots.ts` (block `/admin/*`), metadata `generateMetadata()` per route, dan audit alt text gambar.
-- **Task 4.2** (Dev FE | Est: 4h) – **Audit Aksesibilitas &amp; Polish UI/UX**: Pastikan rasio kontras &ge;4.5:1, `focus-visible` rings, ARIA labels pada ikon, transisi micro-animation &le;150ms, dan pengujian responsif 375px–1440px.
+- **Task 4.1** (Dev FE | Est: 4h) – **Technical SEO Implementation**: Buat `app/sitemap.ts` (dinamis URL publik, termasuk `/jurusan/[slug]`), `app/robots.ts` (block `/admin/*`), metadata `generateMetadata()` per route, dan audit alt text gambar.
+- **Task 4.2** (Dev FE | Est: 4h) – **Audit Aksesibilitas &amp; Polish UI/UX**: Pastikan rasio kontras &ge;4.5:1 (verifikasi aktual, bukan cuma review Task 1.2), `focus-visible` rings, ARIA labels pada ikon, transisi micro-animation &le;150ms, dan pengujian responsif 375px–1440px.
 - **Task 4.3** (Dev BE-1 | Est: 4h) – **Konfigurasi Server Nginx &amp; SSL**: Konfigurasi Nginx Server Block untuk domain utama (`smkmuh1-skh.sch.id`) dan subdomain (`ppdb.smkmuh1-skh.sch.id`), reverse proxy ke port Express (5000) &amp; Next.js (3000), serta setup SSL Certbot.
 - **Task 4.4** (Dev BE-1 | Est: 3h) – **Deployment VPS &amp; PM2**: Devisi instance PM2 untuk memantau Express &amp; Next.js, pastikan PostgreSQL connection pool limit terkonfigurasi di `DATABASE_URL`.
 - **Task 4.5** (Dev BE-2 | Est: 4h) – **Uji Beban (Load Test) `autocannon`**: Jalankan `autocannon -c 50 -d 30` untuk Domain Utama &amp; Subdomain PPDB. Pastikan throughput &ge;100 req/sec &amp; latency p99 &lt; 500ms.
@@ -209,6 +219,7 @@ Target pengerjaan dibagi menjadi **4 Sprint Intensif (4 Minggu)** yang mencakup 
 - **DNS Subdomain Belum Ready** – Dampak: Subdomain PPDB tidak bisa diakses | Mitigasi: Gunakan fallback route `/ppdb/daftar` pada domain utama
 - **Gemini API Rate Limit / Quota Exceeded** – Dampak: Chatbot gagal menjawab | Mitigasi: Layer 1 Rule-based menangani &ge;80% FAQ; jika error, fallback otomatis ke tombol WA Admin
 - **Upload Bukti Pembayaran Gagal** – Dampak: Pendaftaran PPDB terhambat | Mitigasi: Form konfirmasi bersifat non-blocking; user tetap bisa submit &amp; kirim bukti via WA
+- **Landing page dikerjakan tergesa-gesa** *(baru, v1.1)* – Dampak: F7 (satu dari 10 fitur MVP) berisiko jadi "sisipan" di akhir sprint karena sebelumnya tidak punya task eksplisit | Mitigasi: Task 2.10–2.13 sekarang eksplisit di Sprint 2, dialokasikan 19h total, sejajar prioritasnya dengan Form Wizard PPDB
 
 ---
 
@@ -218,7 +229,10 @@ Target pengerjaan dibagi menjadi **4 Sprint Intensif (4 Minggu)** yang mencakup 
 - [ ] Database **PostgreSQL** berhasil dikoneksikan via Prisma ORM dengan migration bersih.
 - [ ] Subdomain PPDB berjalan via Next.js Middleware rewrite tanpa memisah codebase/database.
 - [ ] Autentikasi Admin (Session Cookie) terproteksi dengan aman.
-- [ ] Chatbot FAQ menjawab via Rule-based dan Fallback Gemini tanpa crash.
+- [ ] Chatbot FAQ menjawab via Rule-based dan Fallback Gemini tanpa crash, dengan typing indicator saat Layer 2.
 - [ ] `sitemap.xml` dan `robots.txt` valid, Lighthouse SEO score &ge; 90.
 - [ ] Uji beban `autocannon` mencapai &ge; 100 req/sec dengan latency p99 &lt; 500ms.
 - [ ] 5 Logo Kompetisi wajib tampil di footer semua halaman.
+- [ ] Seluruh section Landing Page (F7) — Hero, Jadwal & Cara Daftar, Jurusan, Testimoni, Kerjasama Industri, Berita, Fasilitas — tampil sesuai `project-overview.md` Fitur #7, bukan cuma Navbar/Footer.
+- [ ] Halaman `/jurusan/[slug]` dapat diakses dari klik kartu jurusan di landing page.
+- [ ] Token warna `danger`/`success` versi diperbaiki (v1.1) terpakai konsisten di seluruh badge status.

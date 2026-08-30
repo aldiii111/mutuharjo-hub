@@ -5,6 +5,7 @@
 |-------|-----------|--------|
 | **Monorepo** | Flat: `frontend/` + `backend/` + `shared/` | Simpel, tidak memerlukan tooling ekstra untuk tim 3 orang siswa |
 | **Frontend** | Next.js 15 (App Router) | SSR/SSG, SEO‑friendly, dukungan subdomain via middleware |
+| **UI Component Library** | Shadcn UI (Radix UI primitives) + `class-variance-authority` (cva) | Komponen accessible-by-default (focus, aria, keyboard nav) tanpa dependency runtime besar — kode disalin langsung ke `components/ui/`, bukan npm package, jadi mudah disesuaikan ke token OKLCH. Konvensi lengkap: lihat `code-standards.md` §2C |
 | **Backend** | Express.js 5 + TypeScript | Ringan, mudah dipelajari, cocok untuk API REST |
 | **Database** | PostgreSQL + Prisma ORM | Relasional, andal, dukung JSON & full-text query |
 | **Session Store** | `connect-pg-simple` (PostgreSQL session store) | Persist sesi di DB, tidak hilang saat restart |
@@ -12,7 +13,7 @@
 | **Subdomain PPDB** | Next.js Middleware hostname rewrite (`ppdb.*`) | Satu codebase, design system & cookie yang sama |
 | **Auth** | Express session cookie + bcrypt | Simpel, cukup untuk panel admin |
 | **API Contract** | `ApiResponse<T>` generic wrapper (shared types) | Type‑safe FE ↔ BE communication |
-| **Design System** | Token OKLCH, Plus Jakarta Sans & DM Sans, anti‑cliché rules (see `design-system/master.md`) | Konsistensi visual, aksesibilitas, dark‑mode |
+| **Design System** | Token OKLCH, Plus Jakarta Sans (body) & DM Sans (heading), anti‑cliché rules (see `design-system/master.md`) | Konsistensi visual, aksesibilitas, dark‑mode |
 
 ---
 
@@ -36,7 +37,12 @@ export const config = {
   matcher: ['/((?!api|_next/static|_next/image|favicon.ico|uploads).*)'],
 }
 ```
-*Result:* `ppdb.smkmuh1-skh.sch.id/` → `app/(ppdb-subdomain)/...` (Form Wizard, Konfirmasi, Status). `smkmuh1-skh.sch.id/ppdb` tetap menjadi halaman **info**.
+*Result:* `ppdb.smkmuh1-skh.sch.id/` → `app/ppdb-subdomain/...` (Form Wizard, Konfirmasi, Status). `smkmuh1-skh.sch.id/ppdb` tetap menjadi halaman **info**.
+
+> **Catatan lokal dev:** folder fisik harus `app/ppdb-subdomain/` (bukan Route Group
+> `app/(ppdb-subdomain)/`), dan browser lokal butuh entry `/etc/hosts`
+> (`127.0.0.1 ppdb.localhost`) agar rewrite di atas tidak menghasilkan 404 —
+> lihat `current-issues.md` §2 poin 1.
 
 ---
 
@@ -63,13 +69,13 @@ server {
 
 ---
 
-## 4. Database Schema (Prisma + SQLite)
+## 4. Database Schema (Prisma + PostgreSQL)
 ```prisma
 // backend/prisma/schema.prisma
 
 generator client { provider = "prisma-client-js" }
 
-datasource db { provider = "sqlite" url = env("DATABASE_URL") }
+datasource db { provider = "postgresql" url = env("DATABASE_URL") }
 
 model PendaftarPPDB {
   id               String   @id @default(uuid())
@@ -155,7 +161,7 @@ model UploadedFile {
   createdAt DateTime @default(now())
 }
 ```
-*Catatan:* Semua model sudah **WA‑compatible**; `UploadedFile` dipakai oleh endpoint `/api/upload`.
+*Catatan:* Semua model sudah **WA‑compatible**; `UploadedFile` dipakai oleh endpoint `/api/upload`. Mitra Industri **sengaja tidak** punya model Prisma — datanya JSON statis (`data/mitra.json`), lihat Fitur #4 di `project-overview.md`.
 
 ---
 
@@ -197,7 +203,7 @@ export interface PaginatedResponse<T> extends ApiResponse<T[]> {
 
 ---
 
-## 6. Data Seed Requirements (Wajib Sebelum Phase 1)
+## 6. Data Seed Requirements (Wajib Sebelum Phase 1)
 | Item | Contoh File | Keterangan |
 |------|-------------|------------|
 | **Mitra Industri** | `frontend/data/mitra.json` | Minimal 6 (1 per jurusan), ideal 12+ |
@@ -214,44 +220,50 @@ export interface PaginatedResponse<T> extends ApiResponse<T[]> {
 ---
 
 ## 7. Design System (Ringkas)
-- **Palette**: OKLCH tokens dari `design-system/master.md` (`primary`, `secondary`, `accent`, `background`, `surface`, `muted`, `danger`, `success`, `ring`).
-- **Typography**: Plus Jakarta Sans (heading & body) + DM Sans, ukuran h1–h3, body, small, caption.
-- **Spacing**: 8 px grid (`--space-2 = 8px`).
+- **Palette**: OKLCH tokens dari `design-system/master.md` (`primary`, `secondary`, `accent`, `background`, `surface`, `muted`, `danger`, `success`, `ring`). Token `danger` dan `success` sudah diperbaiki di v1.1 — jangan pakai nilai lama.
+- **Typography**: Plus Jakarta Sans (body) + DM Sans (heading), ukuran h1–h3, body, small, caption.
+- **Spacing**: 8 px grid (`--space-2 = 8px`); jarak antar section landing pakai `--space-8`/`--space-10`.
 - **Radius**: max `--radius-lg = 12px`.
 - **Shadows**: subtle (`--shadow-sm/md/lg`).
-- **Components**: Button, Card, Input, Select, FileUpload, Modal, Table, Badge, Toast, Stepper, ChatWidget – semua berada di `components/ui/` dan mengikuti token.
-- **Anti‑Patterns** (dilarang keras): gradient neon, emoji, glass‑morphism, excessive shadows, bento‑grid tanpa alasan, emoticon, dll. (lihat `ui-context.md` §10‑§12).
-- **Accessibility**: WCAG AAA where feasible, focus‑visible ring, contrast ≥ 4.5:1, `prefers-reduced-motion`, ARIA labels on icons, skip‑link, landmarks.
-- **Interaction**: micro‑motion ≤ 150 ms, button press opacity, card lift `translateY(-2px)`, form shake on error.
+- **Components**: Button, Card, Input, Select, FileUpload, Modal, Table, Badge, Toast, Stepper, ChatWidget – semua berada di `components/ui/` (primitives, lowercase, konvensi shadcn) atau `components/features/{domain}/` (PascalCase), dan mengikuti token.
+- **Anti‑Patterns** (dilarang keras): gradient neon, emoji, glass‑morphism, excessive shadows, bento‑grid tanpa alasan, emoticon, dll. (lihat `ui-context.md` §10).
+- **Accessibility**: WCAG AAA where feasible, focus‑visible ring, contrast ≥ 4.5:1 (diverifikasi aktual), `prefers-reduced-motion`, ARIA labels on icons, skip‑link, landmarks.
+- **Interaction**: micro‑motion ≤ 150 ms, button press opacity, card lift `translateY(-2px)`, form shake on error.
 
 ---
 
-## 8. Sprint Timeline (8 Weeks) – Menggabungkan Opencode & Claude
+## 8. Sprint Timeline (4 Weeks) – Menggabungkan Opencode & Claude
 | **Sprint (Minggu)** | **Padanan Phase** | **Fokus Utama** | **Deliverables Utama** |
 |---|---|---|---|
-| **Sprint 1** (Minggu 1) | **Phase 0** (Foundation) | Setup Monorepo, PostgreSQL Prisma, Auth Session, Subdomain Middleware | Repository flat, schema Prisma PostgreSQL, Next.js 15 & Express 5 running, token OKLCH, Session Auth |
-| **Sprint 2** (Minggu 2) | **Phase 1 & 2** (PPDB & Core Content) | PPDB Subdomain Multi-Step, Pembayaran WA, Landing Page & BLUD/Mitra | Form Wizard 4-step (`ppdb.*`), nomor unik, konfirmasi bayar WA, showcase BLUD (`/blud`), direktori mitra (`/mitra-industri`) |
+| **Sprint 1** (Minggu 1) | **Phase 0** (Foundation) | Setup Monorepo, PostgreSQL Prisma, Auth Session, Subdomain Middleware | Repository flat, schema Prisma PostgreSQL, Next.js 15 & Express 5 running, token OKLCH (termasuk `danger`/`success` versi diperbaiki), Session Auth |
+| **Sprint 2** (Minggu 2) | **Phase 1 & 2** (PPDB & Core Content) | PPDB Subdomain Multi-Step, Pembayaran WA, **Landing Page (semua section F7)**, BLUD/Mitra | Form Wizard 4-step (`ppdb.*`), nomor unik, konfirmasi bayar WA, showcase BLUD (`/blud`), direktori mitra (`/mitra-industri`), **Hero, Jadwal & Cara Daftar, Jurusan Grid, Testimoni, Kerjasama Industri, Berita Grid, Fasilitas, halaman `/jurusan/[slug]`** |
 | **Sprint 3** (Minggu 3) | **Phase 3 & 4** (Interactive & Admin) | Chatbot Hybrid, Admin Panel Dashboard | Chatbot FAQ Gemini, Panel Admin (`/admin`), verifikasi PPDB/Bayar, moderasi content |
 | **Sprint 4** (Minggu 4) | **Phase 5 & 6** (Polish & Deployment) | Technical SEO, Load Test, VPS Deploy & Demo Prep | `sitemap.xml`, `robots.txt`, Lighthouse SEO ≥ 90, `autocannon` load test, Nginx SSL VPS deploy, pitch deck, mentor sign‑off |
 
+> **Perbaikan v1.1:** header section ini sebelumnya tertulis "Sprint Timeline (8
+> Weeks)" padahal isi tabel dan seluruh `mvp.md` konsisten 4 minggu / 4 sprint —
+> sisa typo dari draft lama, sudah diperbaiki. Kolom **Deliverables Utama** Sprint 2
+> sebelumnya tidak menyebut Landing Page sama sekali padahal disebut di **Fokus
+> Utama** — sudah ditambahkan konkret sesuai task baru di `mvp.md` §5.
+
 ---
 
-## 9. Definition of Done (Automated + Manual)
+## 9. Definition of Done (Automated + Manual)
 ### Automated Checks
 - `curl http://localhost:5000/api/health` → 200 OK
 - `npm run build` (frontend) – no SSR errors
 - `npx prisma validate` – schema valid
-- Load test `autocannon -c 50 -d 30 https://smkmuh1-skh.sch.id` & subdomain → ≥100 req/s, p99 < 500 ms
-- Lighthouse SEO ≥ 90, Performance ≥ 80 (both domains)
+- Load test `autocannon -c 50 -d 30 https://smkmuh1-skh.sch.id` & subdomain → ≥100 req/s, p99 < 500 ms
+- Lighthouse SEO ≥ 90, Performance ≥ 80 (both domains)
 ### Manual Checks
 - End‑to‑end PPDB flow (info → subdomain → submit → konfirmasi → status)
-- Admin login, dashboard CRUD, status update
-- Chatbot answers FAQ (layer 1) & fallback Gemini (layer 2) without crash
-- Responsiveness: 375 px, 768 px, 1280 px+; dark‑mode toggle
+- Admin login, dashboard CRUD, status update (badge danger/success terlihat jelas)
+- Chatbot answers FAQ (layer 1) & fallback Gemini (layer 2) without crash, typing indicator muncul saat Layer 2
+- Responsiveness: 375 px, 768 px, 1280 px+; dark‑mode toggle
 - 5 logo kompetisi tampil di semua footer
-- Form validation (NISN 10 digit, HP 08xx, future dates blocked)
-- Upload limits: max 2 MB, JPG/PNG/WebP → WebP conversion via Sharp
-- Accessibility audit (focus rings, aria‑labels, contrast)
+- Form validation (NISN 10 digit, HP 08xx, future dates blocked)
+- Upload limits: max 2 MB, JPG/PNG/WebP → WebP conversion via Sharp
+- Accessibility audit (focus rings, aria‑labels, contrast — verifikasi aktual, bukan asumsi)
 
 ---
 
@@ -259,10 +271,10 @@ export interface PaginatedResponse<T> extends ApiResponse<T[]> {
 | Risiko | Dampak | Mitigasi |
 |--------|--------|----------|
 | DNS subdomain belum ready | PPDB tidak dapat diakses | Fallback route `/ppdb/daftar` pada domain utama |
-| Gemini rate‑limit | Chatbot fallback tidak tersedia | Rule‑based layer 1 menjawab ≥ 80 % FAQ; fallback UI static message + WA button |
+| Gemini rate‑limit | Chatbot fallback tidak tersedia | Rule‑based layer 1 menjawab ≥ 80 % FAQ; fallback UI static message + WA button |
 | PostgreSQL connection pool limit | Database error | Gunakan connection limit di `DATABASE_URL` (`?connection_limit=20`) |
-| VPS RAM terbatas (1‑2 GB) | Next.js + Express mepet | Static generation where possible, image compression, limit PM2 to 1 instance each |
-| Tim tidak aktif | Fitur terlambat | Prioritas: Phase 1 → Phase 2 → Phase 3 → Phase 4, dan mock API stubs untuk FE unblock |
+| VPS RAM terbatas (1‑2 GB) | Next.js + Express mepet | Static generation where possible, image compression, limit PM2 to 1 instance each |
+| Tim tidak aktif | Fitur terlambat | Prioritas: Phase 1 → Phase 2 → Phase 3 → Phase 4, dan mock API stubs untuk FE unblock |
 
 ---
 
@@ -271,7 +283,7 @@ export interface PaginatedResponse<T> extends ApiResponse<T[]> {
 - **Gemini API Key** – dapatkan & masukkan ke `.env`.
 - **VPS Specs** – finalisasi RAM/CPU, pastikan port 80/443 open.
 - **Data Seed** – tim FE/BE kumpulkan file JSON sesuai tabel di atas.
-- **Testing Framework** – Jest + React Testing Library (frontend) & Supertest (backend).
+- **Testing Framework** – Jest + React Testing Library (frontend) & Supertest (backend).
 
 ---
 
