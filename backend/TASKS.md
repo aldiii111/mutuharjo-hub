@@ -8,7 +8,7 @@ Dokumen ini berisi daftar tugas terperinci, spesifikasi API endpoint, skema data
 
 ## 1. Peran & Pembagian Kerja Backend
 
-- **Backend Developer 1 (Dev BE-1)**: Express.js 5 API, Session Cookie (`connect-pg-simple`) + Bcrypt Authentication, PostgreSQL + Prisma ORM (7 Model DB), PPDB Submission Flow, Status Update, Nginx Server Block, & PM2 Deployment.
+- **Backend Developer 1 (Dev BE-1)**: Express.js 5 API, Session Cookie (`connect-pg-simple`) + Bcrypt Authentication, PostgreSQL + Prisma ORM v6 (`^6.4.1`) (7 Model DB), PPDB Submission Flow, Status Update, Nginx Server Block, & PM2 Deployment.
 - **Backend Developer 2 (Dev BE-2)**: Content Services (Berita, BLUD, Mitra), File Upload Endpoint (`POST /api/upload`) kompresi WebP via Sharp (max 2MB), Chatbot FAQ Hybrid (Layer 1 Rule-based + Layer 2 Gemini API), File Seed Data JSON (`backend/prisma/seed/`), CORS Sanitization, & Uji Beban `autocannon`.
 
 - **Aturan Ketat Kode (v1.2)**:
@@ -152,7 +152,7 @@ model UploadedFile {
 
 * [x] **Task 1.1 — Setup Monorepo Workspace**: Menyiapkan linkage package `@mutuharjo/shared`.
 * [ ] **Task 1.5 — Setup Express 5 Server**: Inisialisasi Express.js 5 TypeScript di `backend/` dan routing dasar. (Owner: Dev BE-1)
-* [ ] **Task 1.6 — Integrasi Prisma ORM PostgreSQL**: Tulis `schema.prisma` utuh untuk 7 model dan jalankan `npx prisma migrate dev`. (Owner: Dev BE-1)
+* [ ] **Task 1.6 — Integrasi Prisma ORM v6 PostgreSQL**: Tulis `schema.prisma` utuh untuk 7 model dan jalankan `npx prisma migrate dev` menggunakan Prisma v6 (`^6.4.1`). (Owner: Dev BE-1)
 * [ ] **Task 1.7 — Setup Auth Session Admin**: Inisialisasi Express session dengan `connect-pg-simple`, Bcrypt hashing, dan `requireAdminSession` middleware. (Owner: Dev BE-1)
 * [ ] **Task 1.8 — Endpoint Upload Media (`POST /api/upload`)**: Buat endpoint Multer, kompresi WebP via Sharp (max 2MB), dan pencatatan ke `UploadedFile`. (Owner: Dev BE-2)
 * [ ] **Task 1.9 — Pembuatan File Seed Data JSON & Prisma Seed**: Buat script `prisma db seed` dan file `admin.json` di `backend/prisma/seed/`. (Owner: Dev BE-2)
