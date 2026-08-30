@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model PendaftarPPDB {
+  id               String           @id @default(uuid())
+  nomorPendaftaran String           @unique
+  namaLengkap      String
+  nisn             String
+  tempatLahir      String
+  tanggalLahir     DateTime
+  jenisKelamin     String
+  asalSekolah      String
+  alamat           String
+  namaOrtuWali     String
+  noHpOrtuWali     String
+  pekerjaanOrtu    String?
+  pilihanJurusan1  String
+  pilihanJurusan2  String?
+  status           String           @default("baru")
+  pembayaran       KonfirmasiBayar?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+}
+
+model KonfirmasiBayar {
+  id           String        @id @default(uuid())
+  pendaftarId  String        @unique
+  pendaftar    PendaftarPPDB @relation(fields: [pendaftarId], references: [id])
+  namaPengirim String
+  nominal      Int
+  buktiUrl     String?
+  status       String        @default("menunggu")
+  catatanAdmin String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model ProdukBLUD {
+  id            String   @id @default(uuid())
+  nama          String
+  deskripsi     String
+  jurusan       String
+  gambarUrl     String
+  estimasiHarga String?
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Berita {
+  id          String    @id @default(uuid())
+  judul       String
+  slug        String    @unique
+  ringkasan   String
+  konten      String
+  gambarUrl   String?
+  isPublished Boolean   @default(false)
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Admin {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model ChatLog {
+  id        String   @id @default(uuid())
+  sessionId String
+  message   String
+  answer    String
+  source    String
+  createdAt DateTime @default(now())
+}
+
+model UploadedFile {
+  id        String   @id @default(uuid())
+  filename  String
+  url       String
+  category  String
+  entityId  String?
+  createdAt DateTime @default(now())
+}

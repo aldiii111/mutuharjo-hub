@@ -21,7 +21,7 @@ Membangun platform web resmi **SMK Muhammadiyah 1 Sukoharjo (Mutuharjo Hub)** mo
 Struktur repositori menggunakan monorepo flat (`frontend/`, `backend/`, `shared/`).
 
 - **Frontend Developer** (1 orang - Dev FE): UI/UX, Next.js 15 App Router, Subdomain Middleware, Client Components, OKLCH Design System, SEO Metadata, Integration
-- **Backend Developer 1** (1 orang - Dev BE-1): Express.js 5 API, Authentication (Session Cookie + Bcrypt), Database PostgreSQL + Prisma, PPDB Flow &amp; Pembayaran WA
+- **Backend Developer 1** (1 orang - Dev BE-1): Express.js 5 API, Authentication (Session Cookie + Bcrypt), Database PostgreSQL + Prisma v6, PPDB Flow &amp; Pembayaran WA
 - **Backend Developer 2** (1 orang - Dev BE-2): Content Services (Berita, BLUD, Mitra), Chatbot Hybrid (Rule-based + Gemini), File Upload Sharp (WebP)
 
 ---
@@ -46,7 +46,7 @@ Struktur repositori menggunakan monorepo flat (`frontend/`, `backend/`, `shared/
 ### Stack utama:
 - **Frontend**: Next.js 15 (App Router), React 19, TypeScript, **Shadcn UI** + Radix UI Primitives, Tailwind CSS (OKLCH Tokens), Lucide Icons.
 - **Backend**: Express.js 5 + TypeScript, `connect-pg-simple` (Session Store), Bcrypt, Sharp.
-- **Database**: **PostgreSQL** + Prisma ORM.
+- **Database**: **PostgreSQL** + Prisma ORM v6 (`^6.4.1`).
 
 ### Skema Prisma (`backend/prisma/schema.prisma`):
 ```prisma
@@ -163,7 +163,7 @@ Target pengerjaan dibagi menjadi **4 Sprint Intensif (4 Minggu)** yang mencakup 
 - **Task 1.3** (Dev FE | Est: 3h) – **Middleware Subdomain Host Rewrite**: Implementasi `frontend/middleware.ts` untuk memetakan permintaan `ppdb.smkmuh1-skh.sch.id` secara internal ke `app/ppdb-subdomain/`.
 - **Task 1.4** (Dev FE | Est: 4h) – **Layout Utama &amp; Komponen Dasar**: Buat komponen `Navbar` (termasuk link "Tentang" &amp; "Berita"), `Footer` (menampilkan **5 Logo Kompetisi Wajib**: JHIC, Kemenag, Muhammadiyah, Sponsor, Media), `TopLoaderBar` (`ajaxify-progress-bar` di `RootLayout`), dan `Container` terpusat (`max-w-7xl`).
 - **Task 1.5** (Dev BE-1 | Est: 4h) – **Setup Express 5 Server**: Inisialisasi Express.js 5 TypeScript di `backend/` dan tipe bersama `shared/types/api.types.ts` (`ApiResponse\<T\>` &amp; `PaginatedResponse\<T\>`).
-- **Task 1.6** (Dev BE-1 | Est: 5h) – **Integrasi Prisma ORM PostgreSQL**: Tulis `schema.prisma` utuh untuk 7 model (`PendaftarPPDB`, `KonfirmasiBayar`, `ProdukBLUD`, `Berita`, `Admin`, `ChatLog`, `UploadedFile`), lalu jalankan `npx prisma migrate dev`.
+- **Task 1.6** (Dev BE-1 | Est: 5h) – **Integrasi Prisma ORM v6 PostgreSQL**: Tulis `schema.prisma` utuh untuk 7 model (`PendaftarPPDB`, `KonfirmasiBayar`, `ProdukBLUD`, `Berita`, `Admin`, `ChatLog`, `UploadedFile`), lalu jalankan `npx prisma migrate dev` menggunakan Prisma v6 (`^6.4.1`).
 - **Task 1.7** (Dev BE-1 | Est: 4h) – **Setup Auth Session Admin**: Inisialisasi Express session dengan `connect-pg-simple` (PostgreSQL store), Bcrypt password hashing, dan `requireAdminSession` middleware.
 - **Task 1.8** (Dev BE-2 | Est: 4h) – **Endpoint Upload Media (`POST /api/upload`)**: Buat endpoint penanganan upload file via Multer, kompresi otomatis ke WebP via Sharp (max 2MB), dan pencatatan ke model `UploadedFile`.
 - **Task 1.9** (Dev BE-2 | Est: 5h) – **Pembuatan File Seed Data JSON (`frontend/data/` & `backend/prisma/seed/`)**: Buat 10 file seed (`mitra.json`, `jurusan.json`, `testimoni.json`, `produk-blud.json`, `berita.json`, `rekening.json`, `wa-admin.json`, logo kompetisi di `frontend/data/`, serta `admin.json` di `backend/prisma/seed/`) serta script `prisma db seed`.

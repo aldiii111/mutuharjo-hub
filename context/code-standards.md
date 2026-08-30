@@ -182,9 +182,9 @@ Contoh respon error:
 
 ---
 
-## 5. Standar Database (PostgreSQL & Prisma)
+## 5. Standar Database (PostgreSQL & Prisma v6)
 
-1. **Provider**: `postgresql` pada `datasource db` di `schema.prisma`.
+1. **Versi & Provider**: Prisma ORM v6 (`^6.4.1`) dengan `provider = "postgresql"` pada `datasource db` di `schema.prisma`.
 2. **Naming Conventions**:
    - Nama Model Prisma: `PascalCase` (contoh: `PendaftarPPDB`, `ProdukBLUD`, `Berita`).
    - Nama Field Prisma: `camelCase` (contoh: `nomorPendaftaran`, `pilihanJurusan1`, `createdAt`).

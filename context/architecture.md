@@ -7,7 +7,7 @@
 | **Frontend** | Next.js 15 (App Router) | SSR/SSG, SEO‑friendly, dukungan subdomain via middleware |
 | **UI Component Library** | Shadcn UI (Radix UI primitives) + `class-variance-authority` (cva) | Komponen accessible-by-default (focus, aria, keyboard nav) tanpa dependency runtime besar — kode disalin langsung ke `components/ui/`, bukan npm package, jadi mudah disesuaikan ke token OKLCH. Konvensi lengkap: lihat `code-standards.md` §2C |
 | **Backend** | Express.js 5 + TypeScript | Ringan, mudah dipelajari, cocok untuk API REST |
-| **Database** | PostgreSQL + Prisma ORM | Relasional, andal, dukung JSON & full-text query |
+| **Database** | PostgreSQL + Prisma ORM v6 (`^6.4.1`) | Relasional, andal, dukung JSON & full-text query |
 | **Session Store** | `connect-pg-simple` (PostgreSQL session store) | Persist sesi di DB, tidak hilang saat restart |
 | **File Upload** | Local disk (`backend/uploads/`) served langsung oleh Nginx | Gratis, cepat, tanpa ketergantungan cloud |
 | **Subdomain PPDB** | Next.js Middleware hostname rewrite (`ppdb.*`) | Satu codebase, design system & cookie yang sama |
@@ -69,7 +69,7 @@ server {
 
 ---
 
-## 4. Database Schema (Prisma + PostgreSQL)
+## 4. Database Schema (Prisma v6 + PostgreSQL)
 ```prisma
 // backend/prisma/schema.prisma
 
