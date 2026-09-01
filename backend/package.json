@@ -2,6 +2,7 @@
   "name": "@mutuharjo/backend",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "main": "src/index.ts",
   "scripts": {
     "dev": "tsx watch src/index.ts",
