@@ -1,6 +1,5 @@
 import { prisma } from "../lib/prisma.js"
 import type { UploadedFile } from "@prisma/client"
-
 export class UploadService {
   async saveUploadRecord(
     filename: string,
@@ -18,5 +17,4 @@ export class UploadService {
     })
   }
 }
-
 export const uploadService: UploadService = new UploadService()
