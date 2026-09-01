@@ -1,0 +1,10 @@
+{
+  "mitra": [
+    { "jurusan": "TSM (Teknik Sepeda Motor)", "nama": "Yamaha Indonesia Manufakture (YIM)", "keterangan": "Bengkel resmi service Yamaha untuk praktik dan kesempatan kerja/studi lanjut" },
+    { "jurusan": "TJKT (Teknik Jaringan, komputer, dan Telekomunikasi)", "nama": "PT. Mitra Akses Globalindo", "keterangan": "Fasilitasi praktik dan kerja di bidang IT, operator, teknisi, pertambangan, manufaktur serta studi lanjut" },
+    { "jurusan": "TP (Teknik Pemesinan)", "nama": " Mitra Industri (various)", "keterangan": "Produksi sesuai permintaan mitra industri untuk perekrutan" },
+    { "jurusan": "TKR (Teknik Kendaraan ringan)", "nama": "PT. Daihatsu", "keterangan": "Budaya Daihatsu untuk praktik di otomotif, pertambangan, perkebunan, manufaktur serta studi lanjut" },
+    { "jurusan": "PPLG (Rekayasa Perangkat Lunak)", "nama": "PT. Git Solution (Amikom Jogja)", "keterangan": "Pembuat aplikasi Android dan kesempatan kerja di digital, programmer, enterpreneur, studi lanjut" },
+    { "jurusan": "TE (Teknik Elektronika)", "nama": " Mitra Industri (various)", "keterangan": "Kesempatan kerja di Otomasi, elektronika, pertambangan, manufacture serta studi lanjut" }
+  ]
+}

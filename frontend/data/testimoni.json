@@ -1,0 +1,32 @@
+{
+  "testimoni": [
+    {
+      "nama": "Ahmad Rizky Pratama",
+      "jurusan": "TJKT",
+      "th_lulusan": "2020",
+      "pekerjaan": "Teknisi IT di PT. Mitra Akses Globalindo",
+      "testimoni": "Saya sangat terima kasih dengan program beasiswa di SMK Muhammadiyah 1 Sukoharjo. Dengan jurusan Teknik Jaringan, Komputer, dan Telekomunikasi, saya tidak lagi kesulitan mencari pekerjaan setelah lulusan."
+    },
+    {
+      "nama": "Dian Sari",
+      "jurusan": "PPLG",
+      "th_lulusan": "2021",
+      "pekerjaan": "Programmer di Startup Teknologi",
+      "testimoni": "Program Rekayasa Perangkat Lunak sangat membantu untuk mengembangkan kemampuan saya menjadi programmer. Sekolah ini memberikan banyak peluang kerja di bidang IT."
+    },
+    {
+      "nama": "Andi Wijaya",
+      "jurusan": "TP",
+      "th_lulusan": "2019",
+      "pekerjaan": "Pengelasa PT. XYZ",
+      "testimoni": "Dengan mengikuti program Teaching Factory di SMK Muhammadiyah 1 Sukoharjo, saya sudah siap langsung kerja di industri manufaktur."
+    },
+    {
+      "nama": "Siti Nurhaliza",
+      "jurusan": "TKR",
+      "th_lulusan": "2022",
+      "pekerjaan": "Operator Pabrik di PT. Daihatsu",
+      "testimoni": "Sekolah ini sangat bagus dengan teman-teman yang baik dan guru-gurunya yang profesional. Saya dapat tempat belajar yang mulus dan cerdas."
+    }
+  ]
+}
