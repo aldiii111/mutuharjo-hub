@@ -150,20 +150,34 @@
 ```html
 <header class="sticky top-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
   <nav class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
-    <a href="/" class="text-primary font-heading text-xl">SMK Mutuharjo</a>
-    <ul class="flex space-x-6">
-      <li><a href="/tentang" class="text-body hover:text-primary transition-colors">Tentang</a></li>
-      <li><a href="/ppdb" class="text-body hover:text-primary transition-colors">PPDB</a></li>
-      <li><a href="/blud" class="text-body hover:text-primary transition-colors">BLUD</a></li>
-      <li><a href="/mitra-industri" class="text-body hover:text-primary transition-colors">Mitra Industri</a></li>
-      <li><a href="/berita" class="text-body hover:text-primary transition-colors">Berita</a></li>
+    <a href="/" class="text-primary font-heading text-xl flex items-center gap-2">
+      <!-- Icon: material-symbols:school -->
+      <span>SMK Mutuharjo</span>
+    </a>
+    <ul class="flex items-center space-x-6">
+      <li><a href="/" class="text-body hover:text-primary transition-colors">Beranda</a></li>
+      <li class="group relative">
+        <span class="text-body cursor-pointer hover:text-primary">Profil ▾</span>
+        <!-- Dropdown: Sejarah, Visi & Misi, Keunggulan, Prestasi, Galeri -->
+      </li>
+      <li class="group relative">
+        <span class="text-body cursor-pointer hover:text-primary">Program & Kemitraan ▾</span>
+        <!-- Dropdown: Jurusan, Mitra Industri, Produk BLUD -->
+      </li>
+      <li class="group relative">
+        <span class="text-body cursor-pointer hover:text-primary">Informasi ▾</span>
+        <!-- Dropdown: Berita & Agenda, Kontak -->
+      </li>
+      <li>
+        <a href="/ppdb" class="bg-primary text-primary-foreground px-4 py-2 rounded-md font-medium hover:bg-primary/90 transition-colors">
+          Info PPDB
+        </a>
+      </li>
     </ul>
   </nav>
 </header>
 ```
-> **Catatan:** "Tentang" dan "Berita" ditambahkan ke nav utama — sebelumnya hanya
-> ada 3 link (PPDB, BLUD, Mitra Industri) padahal situs juga punya halaman profil
-> sekolah dan berita tanpa jalur navigasi eksplisit.
+> **Catatan:** Navbar menggunakan sistem dropdown agar terlihat rapi dan tidak bentrok (clutter). Tombol "Info PPDB" dijadikan CTA (Call to Action) utama. Halaman-halaman turunan dikelompokkan sesuai konteks (Profil, Program & Kemitraan, Informasi).
 
 ### Footer (logo kompetisi + link legal)
 ```html

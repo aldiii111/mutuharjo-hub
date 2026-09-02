@@ -2,7 +2,7 @@
 
 Dokumen ini berisi daftar tugas terperinci, alur kerja, spesifikasi komponen, dan kriteria penyelesaian (*Definition of Done*) khusus untuk **Frontend Developer (Dev FE)** pada aplikasi **Mutuharjo Hub (SMK Muhammadiyah 1 Sukoharjo)**.
 
-> **Dokumen Induk:** [`context/mvp.md`](../context/mvp.md), [`context/architecture.md`](../context/architecture.md), [`context/code-standards.md`](../context/code-standards.md), [`context/master.md`](../context/master.md), [`context/ui-context.md`](../context/ui-context.md).
+> **Dokumen Induk:** [`context/AGENTS.md`](../context/AGENTS.md), [`context/mvp.md`](../context/mvp.md), [`context/architecture.md`](../context/architecture.md), [`context/code-standards.md`](../context/code-standards.md), [`context/master.md`](../context/master.md), [`context/ui-context.md`](../context/ui-context.md).
 
 ---
 
@@ -14,6 +14,7 @@ Dokumen ini berisi daftar tugas terperinci, alur kerja, spesifikasi komponen, da
 - **Aturan Ketat Kode (v1.2)**:
   1. **Strict No `any`**: Dilarang keras menggunakan tipe `any`. Seluruh data/state harus terdefinisi tipe TypeScript-nya atau menggunakan `<T = unknown>`.
   2. **Strict No Slash Comments**: Dilarang keras menulis komentar baris `//` atau `/* */` di dalam file kode sumber (`.ts`, `.tsx`, `.js`, `.jsx`).
+  3. **Kepatuhan AGENTS.md**: Semua "Aturan Keras" di `AGENTS.md` (konsistensi Navbar/Footer tunggal, logo brand, tipografi hero, kontrol carousel, dll) wajib diterapkan di setiap komponen dan halaman.
 
 ---
 
@@ -43,6 +44,7 @@ frontend/
 ├── components/
 │   ├── ui/                       # Shadcn UI primitives (lowercase: button.tsx, card.tsx, dst)
 │   └── features/                 # Feature-specific components (PascalCase):
+│       ├── layout/               # Layout components utama (Navbar.tsx, Footer.tsx)
 │       ├── ppdb/                 # Stepper.tsx, FormStep1..4.tsx, ReviewCard.tsx
 │       ├── blud/                 # ProdukCard.tsx, ProdukDetailModal.tsx
 │       ├── mitra/                # MitraCard.tsx, JurusanFilterChips.tsx
@@ -63,16 +65,16 @@ frontend/
 * [x] **Task 1.1 — Setup Monorepo Workspace**: Menyiapkan linkage package `@mutuharjo/shared`.
 * [x] **Task 1.2 — Setup Next.js 15 App Router & Token Desain**: Inisialisasi Next.js 15, Tailwind v4 OKLCH tokens v1.1 di `app/globals.css`, font `Plus Jakarta Sans` + `DM Sans` di `app/layout.tsx`, dan helper `cn()`.
 * [ ] **Task 1.3 — Middleware Subdomain Host Rewrite**: Implementasi `frontend/middleware.ts` untuk memetakan permintaan `ppdb.smkmuh1-skh.sch.id` secara internal ke `app/ppdb-subdomain/`.
-* [ ] **Task 1.4 — Layout Utama & Komponen Dasar**: Buat komponen `Navbar` (termasuk link "Tentang" & "Berita"), `Footer` (menampilkan **5 Logo Kompetisi Wajib**: JHIC, Kemenag, Muhammadiyah, Sponsor, Media), `TopLoaderBar` (`ajaxify-progress-bar` di `RootLayout`), dan `Container` terpusat (`max-w-7xl`).
+* [x] **Task 1.4 — Layout Utama & Komponen Dasar**: Buat komponen `Navbar` (termasuk link "Tentang" & "Berita"), `Footer` (menampilkan **5 Logo Kompetisi Wajib**: JHIC, Kemenag, Muhammadiyah, Sponsor, Media), `TopLoaderBar` (`ajaxify-progress-bar` di `RootLayout`), dan `Container` terpusat (`max-w-7xl`). (Note: Navbar & Footer telah disentralisasi di `app/(main)/layout.tsx` sesuai aturan AGENTS.md).
 
 ### Sprint 2: Core Subdomain PPDB & Landing Page (Phase 1 & 2)
 
 * [ ] **Task 2.1 — Halaman Informasi PPDB (`/ppdb`)**: Buat halaman informasi pendaftaran di domain utama (jadwal, syarat, biaya Rp100.000, infografis timeline 5 tahap) + CTA ke subdomain.
-* [ ] **Task 2.2 — Form Wizard 4-Step Subdomain (`ppdb.*`)**: Buat form bertahap (Step 1 Data Diri, Step 2 Ortu, Step 3 Pilihan 6 Jurusan CoE, Step 4 Review & Checklist berkas fisik) menggunakan Zod + React Hook Form + Shadcn UI.
+* [ ] **Task 2.2 — Form Wizard 4-Step Subdomain (`ppdb.*`)**: Buat form bertahap (Step 1 Data Diri, Step 2 Ortu, Step 3 Pilihan 6 Jurusan CoE, Step 4 Review & Checklist berkas fisik) menggunakan Zod + React Hook Form + Shadcn UI. (Note: Gunakan layout vertikal sesuai aturan AGENTS.md).
 * [ ] **Task 2.3 — Autosave Draft & Bukti Pendaftaran PDF**: Integrasi `localStorage` autosave antar-step agar data tidak hilang saat refresh, serta buat komponen unduh PDF "Bukti Pendaftaran".
 * [ ] **Task 2.4 — Halaman Konfirmasi Pembayaran & Cek Status**: Buat halaman `ppdb.*/konfirmasi` (info rekening & form upload bukti) dan `ppdb.*/status` (real-time status pendaftaran).
-* [ ] **Task 2.10 — Landing Page — Hero & PPDB Schedule Teaser (F7)**: Bangun `HeroSection` (headline, CTA "Daftar PPDB" ke `/ppdb`, statistik, dot-pattern) dan `PpdbScheduleTeaser` (ringkasan 3 langkah + CTA).
-* [ ] **Task 2.11 — Landing Page — Jurusan, Testimoni, Kerjasama Industri (F7)**: Bangun `JurusanGrid`, `TestimoniCarousel` (reduced motion support), dan `MitraLogoGrid`.
+* [ ] **Task 2.10 — Landing Page — Hero & PPDB Schedule Teaser (F7)**: Bangun `HeroSection` (headline, CTA "Daftar PPDB" ke `/ppdb`, statistik, dot-pattern) dan `PpdbScheduleTeaser` (ringkasan 3 langkah + CTA). Pastikan skala tipografi hero besar dan berani.
+* [ ] **Task 2.11 — Landing Page — Jurusan, Testimoni, Kerjasama Industri (F7)**: Bangun `JurusanGrid`, `TestimoniCarousel` (reduced motion support & wajib ada kontrol visual), dan `MitraLogoGrid`.
 * [ ] **Task 2.12 — Halaman Detail Jurusan (`/jurusan/[slug]`)**: Dynamic route detail per jurusan (deskripsi lengkap, keunggulan, mitra DUDI terkait) dari `jurusan.json`.
 * [ ] **Task 2.13 — Landing Page — Berita & Fasilitas (F7)**: Bangun `BeritaGrid` (1 artikel featured + 2 kecil) dan `FasilitasStrip` (list ikon horizontal).
 
@@ -95,6 +97,9 @@ frontend/
 
 1. Seluruh komponen dibuat tanpa tipe `any` dan tanpa komentar slash (`//`).
 2. Semua warna konsisten mengonsumsi token OKLCH dari `app/globals.css`.
-3. 5 Logo Kompetisi wajib tampil di footer semua halaman.
-4. Rasio kontras teks ≥ 4.5:1 terverifikasi pada mode terang dan gelap.
-5. Lighthouse score: SEO ≥ 90, Performance ≥ 80.
+3. Komponen layout (Navbar/Footer) terpusat di `layout.tsx`, diimplementasikan sekali, tidak disalin ulang per halaman.
+4. Logo brand di Navbar wajib ikon `school` + teks "SMK Mutuharjo", logo sponsor/kompetisi hanya ada di Footer.
+5. Rasio kontras teks ≥ 4.5:1 terverifikasi. Token `danger`/`success` wajib merujuk ke token yang sudah disesuaikan.
+6. Komponen carousel/horizontal scroll harus memiliki navigasi yang eksplisit (arrows/dots).
+7. Gambar di halaman menggunakan foto asli atau placeholder dengan keterangan jelas, dilarang mengambil (`hotlink`) asal dari internet.
+8. Lighthouse score: SEO ≥ 90, Performance ≥ 80.

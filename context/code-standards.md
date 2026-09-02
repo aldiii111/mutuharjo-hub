@@ -16,10 +16,26 @@ school-web-contest/
 ├── frontend/             # Next.js 15 (App Router)
 │   ├── app/               # Routes & Pages
 │   │   ├── (main)/        # Route group domain utama (smkmuh1-skh.sch.id)
-│   │   └── ppdb-subdomain/ # Subdomain route folder (ppdb.smkmuh1-skh.sch.id) — folder fisik, BUKAN route group
+│   │   │   ├── blud/             # Showcase BLUD (F3)
+│   │   │   ├── berita/           # Berita & Agenda (F7)
+│   │   │   ├── galeri/           # Galeri Foto
+│   │   │   ├── jurusan/          # Daftar Jurusan & Detail (F7)
+│   │   │   ├── kebijakan-privasi/# Kebijakan Privasi (Legal)
+│   │   │   ├── kontak/           # Hubungi Kami
+│   │   │   ├── mitra-industri/   # Direktori Mitra (F4)
+│   │   │   ├── ppdb/             # Halaman Informasi PPDB (F1)
+│   │   │   ├── profil/           # Sejarah, Visi Misi, Keunggulan, Prestasi
+│   │   │   └── syarat-ketentuan/ # Syarat & Ketentuan (Legal)
+│   │   ├── ppdb-subdomain/ # Subdomain route folder (ppdb.smkmuh1-skh.sch.id) — folder fisik, BUKAN route group
+│   │   │   ├── konfirmasi/       # Konfirmasi Pembayaran
+│   │   │   └── status/           # Cek Status Pendaftaran
+│   │   └── admin/          # Panel Admin UI (F8)
+│   │       ├── dashboard/        # Dashboard Admin
+│   │       └── login/            # Login Admin
 │   ├── components/        # Component primitives & feature components
 │   │   ├── ui/             # Shadcn UI primitives (button.tsx, card.tsx, dialog.tsx, input.tsx, dst — lowercase, lihat §2.C)
 │   │   └── features/       # Feature-specific components, PascalCase, per domain:
+│   │       ├── layout/      # Layout components utama (Navbar.tsx, Footer.tsx)
 │   │       ├── ppdb/        # Stepper.tsx, FormStep1.tsx, ReviewCard.tsx
 │   │       ├── blud/        # ProdukCard.tsx, ProdukDetailModal.tsx
 │   │       ├── mitra/       # MitraCard.tsx

@@ -14,8 +14,10 @@ const dmSans = DM_Sans({
   display: 'swap',
 });
 
+import NextTopLoader from 'nextjs-toploader';
+
 export const metadata: Metadata = {
-  title: 'Mutuharjo Hub - SMK Muhammadiyah 1 Sukoharjo',
+  title: 'SMK Muhammadiyah 1 Sukoharjo | SMK Mutuharjo',
   description:
     'Platform Web Resmi & Portal PPDB Interaktif SMK Muhammadiyah 1 Sukoharjo (SMK Mutuharjo). Sekolah Pusat Keunggulan.',
 };
@@ -31,6 +33,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       className={`${plusJakartaSans.variable} ${dmSans.variable}`}
     >
       <body className="antialiased font-sans bg-background text-foreground">
+        <NextTopLoader color="hsl(var(--primary))" showSpinner={false} />
         {children}
       </body>
     </html>
