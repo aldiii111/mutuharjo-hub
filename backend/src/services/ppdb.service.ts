@@ -56,3 +56,13 @@ export async function createPendaftar(data: CreatePpdbDto): Promise<string> {
 
     return pendaftar.nomorPendaftaran
 }
+
+export async function getPendaftarByNomorPendaftaran(nomorPendaftaran: string) {
+    const pendaftar = await prisma.pendaftarPPDB.findUnique({
+        where: { nomorPendaftaran },
+        include: {
+            pembayaran: true,
+        },
+    })
+    return pendaftar
+}
