@@ -716,7 +716,7 @@ Tidak ada — deliverable dokumentasi.
 
 ---
 
-# RINGKASAN KETERHUBUNGAN ANTAR FITUR
+# RINGKASAN KETERHUBUNGAN ANTAR FITUR & HALAMAN PENDUKUNG
 
 ```
 DOMAIN UTAMA (smkmuh1-skh.sch.id)
@@ -725,6 +725,12 @@ DOMAIN UTAMA (smkmuh1-skh.sch.id)
                       +-- Direktori Mitra (4)
                       +-- Chatbot (5) --> Eskalasi WA (6)
                       +-- Panel Admin (8) -- mengelola data (1)(2)(3)(7)
+                      |
+                      +-- [Halaman Pendukung Baru]
+                          +-- /profil (Sejarah, Visi-Misi, Keunggulan, Prestasi)
+                          +-- /galeri
+                          +-- /kontak
+                          +-- /berita
 
 SUBDOMAIN (ppdb.smkmuh1-skh.sch.id) -- 1 proses & 1 DB yang sama dengan domain utama
   Form Multi-Step (1) --> Konfirmasi Bayar (2) --> Cek Status

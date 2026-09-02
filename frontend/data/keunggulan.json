@@ -1,0 +1,25 @@
+{
+  "deskripsi": "SMK Muhammadiyah 1 Sukoharjo memiliki program unggulan antara lain Sekolah sehat, sekolah berbasis industri, sekolah berkarakter, teaching factory, technopark dan smart school.",
+  "items": [
+    {
+      "judul": "Sekolah Sehat",
+      "deskripsi": "Memiliki kondisi lingkungan belajar yang normal baik secara jasmani maupun rohani. Ditandai dengan situasi sekolah yang bersih, indah, tertib, dan menjunjung tinggi nilai kekeluargaan."
+    },
+    {
+      "judul": "Sekolah Berkarakter",
+      "deskripsi": "Fokus pada aspek kecerdasan (kognitif), perilaku (psikomotorik) dan perasaan (afektif) secara seimbang untuk membangun karakter kepribadian peserta didik."
+    },
+    {
+      "judul": "Teaching Factory",
+      "deskripsi": "Konsep pembelajaran di SMK berbasis produksi atau jasa yang mengacu kepada standar dan prosedur industri yang diimplementasikan di semua jurusan."
+    },
+    {
+      "judul": "Technopark",
+      "deskripsi": "Wadah penghubung SMK pelaksana Teaching Factory dengan dunia industri. Bertujuan merangsang arus pengetahuan, memfasilitasi inkubasi bisnis, dan menyediakan layanan peningkatan nilai tambah."
+    },
+    {
+      "judul": "Smart School",
+      "deskripsi": "Aplikasi smart school memberikan manfaat untuk mengefektifkan dan mengefisiensikan pelayanan di sekolah agar memberikan dampak signifikan."
+    }
+  ]
+}

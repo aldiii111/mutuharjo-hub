@@ -1,10 +1,16 @@
 {
   "mitra": [
-    { "jurusan": "TSM (Teknik Sepeda Motor)", "nama": "Yamaha Indonesia Manufakture (YIM)", "keterangan": "Bengkel resmi service Yamaha untuk praktik dan kesempatan kerja/studi lanjut" },
-    { "jurusan": "TJKT (Teknik Jaringan, komputer, dan Telekomunikasi)", "nama": "PT. Mitra Akses Globalindo", "keterangan": "Fasilitasi praktik dan kerja di bidang IT, operator, teknisi, pertambangan, manufaktur serta studi lanjut" },
-    { "jurusan": "TP (Teknik Pemesinan)", "nama": " Mitra Industri (various)", "keterangan": "Produksi sesuai permintaan mitra industri untuk perekrutan" },
-    { "jurusan": "TKR (Teknik Kendaraan ringan)", "nama": "PT. Daihatsu", "keterangan": "Budaya Daihatsu untuk praktik di otomotif, pertambangan, perkebunan, manufaktur serta studi lanjut" },
-    { "jurusan": "PPLG (Rekayasa Perangkat Lunak)", "nama": "PT. Git Solution (Amikom Jogja)", "keterangan": "Pembuat aplikasi Android dan kesempatan kerja di digital, programmer, enterpreneur, studi lanjut" },
-    { "jurusan": "TE (Teknik Elektronika)", "nama": " Mitra Industri (various)", "keterangan": "Kesempatan kerja di Otomasi, elektronika, pertambangan, manufacture serta studi lanjut" }
+    { "jurusan": "TBSM (Teknik Bisnis Sepeda Motor)", "nama": "Yamaha Indonesia Manufakture (YIM)", "keterangan": "Bengkel resmi service Yamaha untuk praktik dan kesempatan kerja/studi lanjut" },
+    { "jurusan": "TKJ (Teknik Komputer dan Jaringan)", "nama": "PT. Mitra Akses Globalindo", "keterangan": "Fasilitasi praktik dan kerja di bidang IT, operator, teknisi, pertambangan, manufaktur serta studi lanjut" },
+    { "jurusan": "TKJ (Teknik Komputer dan Jaringan)", "nama": "MikroTik Academy", "keterangan": "Mitra resmi MikroTik Training Partner untuk sertifikasi MTCNA internasional" },
+    { "jurusan": "TKJ (Teknik Komputer dan Jaringan)", "nama": "Cisco", "keterangan": "Partner sertifikasi dan pelatihan jaringan komputer" },
+    { "jurusan": "TKJ (Teknik Komputer dan Jaringan)", "nama": "Oracle", "keterangan": "Partner pendidikan untuk basis data dan teknologi informasi" },
+    { "jurusan": "TP (Teknik Pemesinan)", "nama": "Tebar Digital", "keterangan": "Mitra industri untuk Teaching Factory dan perekrutan" },
+    { "jurusan": "TKRO (Teknik Kendaraan Ringan Otomotif)", "nama": "PT. Daihatsu", "keterangan": "Budaya Daihatsu untuk praktik di otomotif, pertambangan, perkebunan, manufaktur serta studi lanjut" },
+    { "jurusan": "RPL (Rekayasa Perangkat Lunak)", "nama": "PT. Git Solution (Amikom Jogja)", "keterangan": "Pembuat aplikasi Android dan kesempatan kerja di digital, programmer, enterpreneur, studi lanjut" },
+    { "jurusan": "TBSM (Teknik Bisnis Sepeda Motor)", "nama": "PT. Konimex", "keterangan": "Training motivasi dan pengembangan karakter siswa menghadapi dunia kerja" },
+    { "jurusan": "TKRO (Teknik Kendaraan Ringan Otomotif)", "nama": "MGMP Pintar Bersama Daihatsu", "keterangan": "Workshop penguatan kurikulum berbasis industri untuk guru dan siswa" },
+    { "jurusan": "TKJ (Teknik Komputer dan Jaringan)", "nama": "TKI", "keterangan": "Mitra kerja sama untuk pelatihan dan penyaluran tenaga kerja" },
+    { "jurusan": "TEI (Teknik Elektronika Industri)", "nama": "PT. PAMAPERSADA NUSANTARA", "keterangan": "Penyaluran alumni untuk bekerja di bidang pertambangan dan manufaktur" }
   ]
 }

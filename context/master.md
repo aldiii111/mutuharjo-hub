@@ -19,7 +19,7 @@
 | `--color-danger-foreground` | oklch(1 0 0) | oklch(1 0 0) | Text pada danger |
 | `--color-success` | oklch(0.5498 0.1400 145.0000) | oklch(0.6600 0.1550 145.0000) | Success, notifikasi positif, status "Terverifikasi" |
 | `--color-success-foreground` | oklch(1 0 0) | oklch(1 0 0) | Text pada success |
-| `--color-ring` | oklch(0.6112 0.1217 248.9572) | oklch(0.6576 0.1208 252.0832) | Focus ring |
+| `--color-ring` | oklch(0.68 0.12 215) | oklch(0.75 0.12 215) | Focus ring |
 
 > **Perbaikan v1.1 (lihat audit konsistensi):**
 > - `--color-danger` (light) sebelumnya `oklch(0.1931 0.0037 164.6298)` — lightness
@@ -59,9 +59,9 @@
 
 | Element | Font | Size | Line‑height | Weight |
 |---------|------|------|------------|--------|
-| `h1` | `--font-heading` | 2.25rem (36 px) | 1.3 | 700 |
-| `h2` | `--font-heading` | 1.875rem (30 px) | 1.35 | 600 |
-| `h3` | `--font-heading` | 1.5rem (24 px) | 1.4 | 600 |
+| `h1` | `--font-heading` | 2.625rem (42 px) | 1.2 | 700 |
+| `h2` | `--font-heading` | 2.25rem (36 px) | 1.3 | 700 |
+| `h3` | `--font-heading` | 1.875rem (30 px) | 1.4 | 600 |
 | `body` | `--font-body` | 1rem (16 px) | 1.6 | 400 |
 | `small` | `--font-body` | 0.875rem (14 px) | 1.6 | 400 |
 
