@@ -19,7 +19,7 @@
 | `--color-danger-foreground` | oklch(1 0 0) | oklch(1 0 0) | Text pada danger |
 | `--color-success` | oklch(0.5498 0.1400 145.0000) | oklch(0.6600 0.1550 145.0000) | Success, notifikasi positif, status "Terverifikasi" |
 | `--color-success-foreground` | oklch(1 0 0) | oklch(1 0 0) | Text pada success |
-| `--color-ring` | oklch(0.6112 0.1217 248.9572) | oklch(0.6576 0.1208 252.0832) | Focus ring |
+| `--color-ring` | oklch(0.68 0.12 215) | oklch(0.75 0.12 215) | Focus ring |
 
 > **Perbaikan v1.1 (lihat audit konsistensi):**
 > - `--color-danger` (light) sebelumnya `oklch(0.1931 0.0037 164.6298)` — lightness
@@ -59,9 +59,9 @@
 
 | Element | Font | Size | Line‑height | Weight |
 |---------|------|------|------------|--------|
-| `h1` | `--font-heading` | 2.25rem (36 px) | 1.3 | 700 |
-| `h2` | `--font-heading` | 1.875rem (30 px) | 1.35 | 600 |
-| `h3` | `--font-heading` | 1.5rem (24 px) | 1.4 | 600 |
+| `h1` | `--font-heading` | 2.625rem (42 px) | 1.2 | 700 |
+| `h2` | `--font-heading` | 2.25rem (36 px) | 1.3 | 700 |
+| `h3` | `--font-heading` | 1.875rem (30 px) | 1.4 | 600 |
 | `body` | `--font-body` | 1rem (16 px) | 1.6 | 400 |
 | `small` | `--font-body` | 0.875rem (14 px) | 1.6 | 400 |
 
@@ -150,20 +150,34 @@
 ```html
 <header class="sticky top-0 z-50 bg-background/90 backdrop-blur-sm border-b border-border">
   <nav class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
-    <a href="/" class="text-primary font-heading text-xl">SMK Mutuharjo</a>
-    <ul class="flex space-x-6">
-      <li><a href="/tentang" class="text-body hover:text-primary transition-colors">Tentang</a></li>
-      <li><a href="/ppdb" class="text-body hover:text-primary transition-colors">PPDB</a></li>
-      <li><a href="/blud" class="text-body hover:text-primary transition-colors">BLUD</a></li>
-      <li><a href="/mitra-industri" class="text-body hover:text-primary transition-colors">Mitra Industri</a></li>
-      <li><a href="/berita" class="text-body hover:text-primary transition-colors">Berita</a></li>
+    <a href="/" class="text-primary font-heading text-xl flex items-center gap-2">
+      <!-- Icon: material-symbols:school -->
+      <span>SMK Mutuharjo</span>
+    </a>
+    <ul class="flex items-center space-x-6">
+      <li><a href="/" class="text-body hover:text-primary transition-colors">Beranda</a></li>
+      <li class="group relative">
+        <span class="text-body cursor-pointer hover:text-primary">Profil ▾</span>
+        <!-- Dropdown: Sejarah, Visi & Misi, Keunggulan, Prestasi, Galeri -->
+      </li>
+      <li class="group relative">
+        <span class="text-body cursor-pointer hover:text-primary">Program & Kemitraan ▾</span>
+        <!-- Dropdown: Jurusan, Mitra Industri, Produk BLUD -->
+      </li>
+      <li class="group relative">
+        <span class="text-body cursor-pointer hover:text-primary">Informasi ▾</span>
+        <!-- Dropdown: Berita & Agenda, Kontak -->
+      </li>
+      <li>
+        <a href="/ppdb" class="bg-primary text-primary-foreground px-4 py-2 rounded-md font-medium hover:bg-primary/90 transition-colors">
+          Info PPDB
+        </a>
+      </li>
     </ul>
   </nav>
 </header>
 ```
-> **Catatan:** "Tentang" dan "Berita" ditambahkan ke nav utama — sebelumnya hanya
-> ada 3 link (PPDB, BLUD, Mitra Industri) padahal situs juga punya halaman profil
-> sekolah dan berita tanpa jalur navigasi eksplisit.
+> **Catatan:** Navbar menggunakan sistem dropdown agar terlihat rapi dan tidak bentrok (clutter). Tombol "Info PPDB" dijadikan CTA (Call to Action) utama. Halaman-halaman turunan dikelompokkan sesuai konteks (Profil, Program & Kemitraan, Informasi).
 
 ### Footer (logo kompetisi + link legal)
 ```html

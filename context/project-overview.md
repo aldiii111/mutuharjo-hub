@@ -510,6 +510,14 @@ Landing page baru yang memperbaiki menu mati & celah keamanan dari situs lama,
 mengadopsi pola yang terbukti efektif dari benchmark (statistik hero, storytelling
 partner), dengan identitas visual sendiri (anti-cliché, lihat Constitution 2.4).
 
+## Struktur Navigasi (Navbar)
+Menggunakan Top-Level Dropdown untuk mencegah clutter:
+- **Beranda** (`/`)
+- **Profil ▾** (Sejarah, Visi Misi, Keunggulan, Prestasi, Galeri)
+- **Program & Kemitraan ▾** (Jurusan, Mitra Industri, Produk BLUD)
+- **Informasi ▾** (Berita & Agenda, Kontak)
+- **Info PPDB** (Tombol CTA utama mengarah ke `/ppdb`)
+
 ## Alur Pengguna (Struktur Halaman, Single Scroll)
 1. **Hero Section:** headline utama + CTA "Daftar PPDB" (mengarah ke `/ppdb` info,
    BUKAN langsung ke subdomain) + statistik (jumlah Jurusan, Siswa Aktif, Alumni)
@@ -716,7 +724,7 @@ Tidak ada — deliverable dokumentasi.
 
 ---
 
-# RINGKASAN KETERHUBUNGAN ANTAR FITUR
+# RINGKASAN KETERHUBUNGAN ANTAR FITUR & HALAMAN PENDUKUNG
 
 ```
 DOMAIN UTAMA (smkmuh1-skh.sch.id)
@@ -725,6 +733,12 @@ DOMAIN UTAMA (smkmuh1-skh.sch.id)
                       +-- Direktori Mitra (4)
                       +-- Chatbot (5) --> Eskalasi WA (6)
                       +-- Panel Admin (8) -- mengelola data (1)(2)(3)(7)
+                      |
+                      +-- [Halaman Pendukung Baru]
+                          +-- /profil (Sejarah, Visi-Misi, Keunggulan, Prestasi)
+                          +-- /galeri
+                          +-- /kontak
+                          +-- /berita
 
 SUBDOMAIN (ppdb.smkmuh1-skh.sch.id) -- 1 proses & 1 DB yang sama dengan domain utama
   Form Multi-Step (1) --> Konfirmasi Bayar (2) --> Cek Status

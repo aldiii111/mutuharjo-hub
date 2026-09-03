@@ -1,0 +1,44 @@
+[
+  {
+    "kode": "TBSM",
+    "nama": "Teknik Bisnis Sepeda Motor",
+    "singkat": "Teknik Bisnis Sepeda Motor (TBSM)",
+    "deskripsi": "Program keahlian Teknik Bisnis Sepeda Motor dilakukan pembelajaran dan praktik kerja di bengkel resmi service Yamaha, serta berkesempatan untuk kerja atau studi lanjut di Yamaha Indonesia Manufakture (YIM) maupun perusahaan lainnya.",
+    "keahlian": ["Service motor Yamaha", "Perbaikan mesin", "Pengelasan", "Diagnosa kendala"]
+  },
+  {
+    "kode": "TKJ",
+    "nama": "Teknik Komputer dan Jaringan",
+    "singkat": "Teknik Komputer dan Jaringan (TKJ)",
+    "deskripsi": "Program keahlian Teknik Komputer dan Jaringan bekerja sama dengan PT. Mitra Akses Globalindo untuk fasilitasi praktik dan berkesempatan bekerja di bidang IT, operator, teknisi, pertambangan, manufaktur serta studi lanjut.",
+    "keahlian": ["Jaringan komputer", "Administrasi sistem", "Telekomunikasi", "Cyber security"]
+  },
+  {
+    "kode": "TP",
+    "nama": "Teknik Pemesinan",
+    "singkat": "Teknik Pemesinan (TP)",
+    "deskripsi": "Program keahlian Teknik Pemesinan menggunakan sistem Teaching Factory (1 siswa 1 alat) dengan produksi sesuai dengan permintaan mitra industri yang berkesempatan perekrutan.",
+    "keahlian": ["Pemesinan CNC", "Pengelasan", "Kontrol kualitas", "Setup mesin"]
+  },
+  {
+    "kode": "TKRO",
+    "nama": "Teknik Kendaraan Ringan Otomotif",
+    "singkat": "Teknik Kendaraan Ringan Otomotif (TKRO)",
+    "deskripsi": "Program keahlian Teknik Kendaraan Ringan Otomotif belajar sesuai budaya di PT. Daihatsu dan berkesempatan kerja di bidang otomotif, pertambangan, perkebunan dan manufakture, serta studi lanjut.",
+    "keahlian": ["Service kendaraan ringan", "Diagnosa elektronik", "Pengendasan", "Manufaktur otomotif"]
+  },
+  {
+    "kode": "RPL",
+    "nama": "Rekayasa Perangkat Lunak",
+    "singkat": "Rekayasa Perangkat Lunak (RPL)",
+    "deskripsi": "Program keahlian Rekayasa Perangkat Lunak bekerja sama dengan PT. Git Solution (Amikom Jogja) menjadi pembuat aplikasi di android dan berkesempatan bekerja di bidang digital, programmer, enterpreneur, serta studi lanjut.",
+    "keahlian": ["Pengembangan aplikasi", "Pemrograman", "Database", "UI/UX Design"]
+  },
+  {
+    "kode": "TEI",
+    "nama": "Teknik Elektronika Industri",
+    "singkat": "Teknik Elektronika Industri (TEI)",
+    "deskripsi": "Program keahlian Teknik Elektronika Industri menyiapkan siswa yang handal untuk berkesempatan dan bekerja di bidang Otomasi, elektronika, pertambangan, manufacture serta studi lanjut.",
+    "keahlian": ["Rancang bangun elektronik", "Sensor dan aktuator", "PLC Automation", "Embedded System"]
+  }
+]

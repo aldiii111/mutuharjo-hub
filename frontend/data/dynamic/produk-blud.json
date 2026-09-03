@@ -1,0 +1,34 @@
+{
+  "produk_blud": [
+    {
+      "jurusan": "TBSM (Teknik Bisnis Sepeda Motor)",
+      "nama": "Layanan Service Motor Yamaha",
+      "deskripsi": "Pelayanan service resmi untuk sepeda motor Yamaha dengan standar pabrik, meliputi perbaikan ringan hingga berat, ganti oli, dan tuning mesin."
+    },
+    {
+      "jurusan": "TKJ (Teknik Komputer dan Jaringan)",
+      "nama": "Layanan Instalasi dan Konfigurasi Jaringan",
+      "deskripsi": "Menyediakan layanan instalasi jaringan komputer untuk rumah, kantor, dan usaha kecil, termasuk konfigurasi router, switch, dan pengaturan keamanan jaringan."
+    },
+    {
+      "jurusan": "TP (Teknik Pemesinan)",
+      "nama": "Jasa Pemesinan CNC dan Konvensional",
+      "deskripsi": "Produksi bagian mesin dengan presisi tinggi menggunakan mesin CNC serta pemesinan konvensional untuk kebutuhan industri manufaktur."
+    },
+    {
+      "jurusan": "TKRO (Teknik Kendaraan Ringan Otomotif)",
+      "nama": "Layanan Service Kendaraan Ringan",
+      "deskripsi": "Service resmi untuk kendaraan ringan seperti mobil pick-up, truk kecil, dan van, termasuk diagnosa elektronik, perbaikan mesin, dan servis rutin."
+    },
+    {
+      "jurusan": "RPL (Rekayasa Perangkat Lunak)",
+      "nama": "Pengembangan Aplikasi Mobile dan Web",
+      "deskripsi": "Membuat aplikasi Android dan website sesuai kebutuhan klien, termasuk desain UI/UX, pengembangan backend, dan testing aplikasi."
+    },
+    {
+      "jurusan": "TEI (Teknik Elektronika Industri)",
+      "nama": "Jasa Instalasi dan Perbaikan Sistem Elektronika",
+      "deskripsi": "Penyedia layanan instalasi sistem otomasi, perbaikan elektronika industri, dan pemrograman PLC untuk kebutuhan manufaktur dan pertambangan."
+    }
+  ]
+}

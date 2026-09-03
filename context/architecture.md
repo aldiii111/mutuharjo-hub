@@ -160,6 +160,26 @@ model UploadedFile {
   entityId  String?
   createdAt DateTime @default(now())
 }
+
+model Prestasi {
+  id          String   @id @default(uuid())
+  judul       String
+  deskripsi   String
+  tahun       String
+  tingkat     String
+  imageUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Galeri {
+  id          String   @id @default(uuid())
+  judul       String
+  tipe        String   // FOTO | VIDEO
+  url_media   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
 ```
 *Catatan:* Semua model sudah **WA‑compatible**; `UploadedFile` dipakai oleh endpoint `/api/upload`. Mitra Industri **sengaja tidak** punya model Prisma — datanya JSON statis (`data/mitra.json`), lihat Fitur #4 di `project-overview.md`.
 
@@ -209,6 +229,10 @@ export interface PaginatedResponse<T> extends ApiResponse<T[]> {
 | **Mitra Industri** | `frontend/data/mitra.json` | Minimal 6 (1 per jurusan), ideal 12+ |
 | **Deskripsi Jurusan** | `data/jurusan.json` | 6 jurusan, singkat + lengkap |
 | **Testimoni Alumni** | `data/testimoni.json` | ≥4 real alumni |
+| **Profil Sekolah (Visi Misi)** | `data/visi-misi.json` | Statis konten Visi, Misi, Tujuan, Motto |
+| **Profil Sekolah (Sejarah)** | `data/sejarah.json` | Statis konten paragraf sejarah |
+| **Profil Sekolah (Keunggulan)** | `data/keunggulan.json` | Statis data fasilitas & keunggulan |
+| **Kontak Sekolah** | `data/kontak.json` | Alamat, Telp, WA, Email, Maps embed |
 | **Produk BLUD** | `data/produk-blud.json` | 6 produk (1 per jurusan) |
 | **Berita / Artikel** | `data/berita.json` | ≥3, dengan `slug` & `publishedAt` |
 | **Admin Default** | `data/admin.json` | `{ "username": "admin", "password": "<plain>" }` (hashed via seed) |

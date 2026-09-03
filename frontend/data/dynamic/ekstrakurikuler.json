@@ -1,0 +1,14 @@
+[
+  {
+    "id": "hw",
+    "nama": "Hizbul Wathan (HW)",
+    "kategori": "Wajib",
+    "deskripsi": "Gerakan kepanduan Muhammadiyah untuk melatih kemandirian, kedisiplinan, dan kepedulian murid."
+  },
+  {
+    "id": "tapak-suci",
+    "nama": "Tapak Suci",
+    "kategori": "Wajib/Pilihan",
+    "deskripsi": "Seni bela diri pencak silat khas Muhammadiyah untuk melatih ketangkasan dan mental keislaman."
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "kategori": "Praktik",
+    "judul": "Kegiatan Praktik Siswa",
+    "image_url": "/images/jurusan/placeholder.jpg"
+  },
+  {
+    "id": "2",
+    "kategori": "Ekstrakurikuler",
+    "judul": "Kegiatan Ekstrakurikuler",
+    "image_url": "/images/jurusan/placeholder2.jpg"
+  }
+]
