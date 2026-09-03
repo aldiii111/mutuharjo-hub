@@ -64,7 +64,7 @@ frontend/
 
 * [x] **Task 1.1 — Setup Monorepo Workspace**: Menyiapkan linkage package `@mutuharjo/shared`.
 * [x] **Task 1.2 — Setup Next.js 15 App Router & Token Desain**: Inisialisasi Next.js 15, Tailwind v4 OKLCH tokens v1.1 di `app/globals.css`, font `Plus Jakarta Sans` + `DM Sans` di `app/layout.tsx`, dan helper `cn()`.
-* [ ] **Task 1.3 — Middleware Subdomain Host Rewrite**: Implementasi `frontend/middleware.ts` untuk memetakan permintaan `ppdb.smkmuh1-skh.sch.id` secara internal ke `app/ppdb-subdomain/`.
+* [x] **Task 1.3 — Middleware Subdomain Host Rewrite**: Implementasi `frontend/middleware.ts` untuk memetakan permintaan `ppdb.smkmuh1-skh.sch.id` secara internal ke `app/ppdb-subdomain/`.
 * [x] **Task 1.4 — Layout Utama & Komponen Dasar**: Buat komponen `Navbar` (termasuk link "Tentang" & "Berita"), `Footer` (menampilkan **5 Logo Kompetisi Wajib**: JHIC, Kemenag, Muhammadiyah, Sponsor, Media), `TopLoaderBar` (`ajaxify-progress-bar` di `RootLayout`), dan `Container` terpusat (`max-w-7xl`). (Note: Navbar & Footer telah disentralisasi di `app/(main)/layout.tsx` sesuai aturan AGENTS.md).
 
 ### Sprint 2: Core Subdomain PPDB & Landing Page (Phase 1 & 2)

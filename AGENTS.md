@@ -12,15 +12,27 @@ Next.js 15 App Router + TypeScript, Tailwind CSS (OKLCH tokens), shadcn/ui, Expr
 + Prisma + PostgreSQL backend. Detail lengkap arsitektur: `@architecture.md`.
 
 ## Dokumen Rujukan (baca sebelum implementasi apa pun)
-- `@design-system/master.md` — token warna OKLCH, tipografi, spacing, radius, shadow,
-  anti-pattern, aksesibilitas. **Sumber kebenaran tunggal untuk semua nilai visual.**
-- `@ui-context.md` — pemetaan token ke komponen, struktur layout per halaman,
-  voice & tone copy, checklist aksesibilitas.
-- `@code-standards.md` — struktur folder, konvensi penamaan, pola Server/Client
+
+### Design System (v2.0 — 3 Layer)
+- `@context/design-system/foundation.md` — 🔒 **FONDASI DIKUNCI.** Prinsip brand, semantic
+  token contract, 8px grid, WCAG, layout per halaman, iconography, voice & tone,
+  anti-patterns lengkap, data otentik sekolah. **Dilarang diedit** kecuali ada
+  perintah eksplisit "ubah fondasi [nama aturan]".
+- `@context/design-system/visual-style.md` — ✏️ **AGENT-EDITABLE.** Nilai OKLCH konkret,
+  font family, radius, shadow, aesthetic concept, micro-motion, Tailwind config,
+  globals.css template. Edit file ini ketika user minta ganti warna/tema/font.
+  Setelah edit, wajib re-verifikasi kontras WCAG (`foundation.md §F5`).
+- `@context/design-system/components.md` — 📦 Pola komponen (props, markup, domain
+  components, checklist handoff). Edit jika ada komponen baru.
+- `@context/master.md` — Index/navigasi ke 3 layer di atas.
+- `@context/ui-context.md` — Living summary untuk tim FE (quick reference harian).
+
+### Konteks Proyek Lainnya
+- `@context/code-standards.md` — struktur folder, konvensi penamaan, pola Server/Client
   Component, standar API.
-- `@project-overview.md` — spesifikasi lengkap 10 fitur (alur pengguna, data model,
+- `@context/project-overview.md` — spesifikasi lengkap 10 fitur (alur pengguna, data model,
   API routes, DoD per fitur).
-- `@mvp.md` — breakdown task per sprint, termasuk task Landing Page (2.10–2.13) yang
+- `@context/mvp.md` — breakdown task per sprint, termasuk task Landing Page (2.10–2.13) yang
   wajib dikerjakan utuh, bukan cuma Navbar/Footer.
 
 ## ATURAN KERAS — Konsistensi Lintas Halaman
@@ -63,12 +75,12 @@ di awal:
    bawah). **Jangan** pakai layout zigzag kiri-kanan alternating — itu fragile dan
    gampang pecah di breakpoint sempit.
 8. **Jangan seragamkan semua section jadi grid 3 kolom identik.** Ikuti catatan
-   layout per section di `@ui-context.md` §6 — Program Keahlian butuh hierarki
-   (1 unggulan besar + sisanya kecil), Fasilitas cukup strip ikon horizontal, bukan
-   kartu besar bershadow untuk konten yang cuma satu baris teks.
-9. Token warna `danger` dan `success` WAJIB persis sesuai `@design-system/master.md`
-   §1 (merah asli untuk danger, hijau asli untuk success, keduanya beda dari
-   `accent`). Jangan improvisasi nilai warna sendiri untuk status/error/success.
+   layout per section di `@context/design-system/foundation.md §F6` — Program
+   Keahlian butuh hierarki (1 unggulan besar + sisanya kecil), Fasilitas cukup
+   strip ikon horizontal, bukan kartu besar bershadow untuk konten satu baris.
+9. Token warna `danger` dan `success` WAJIB merah dan hijau asli —
+   lihat `@context/design-system/visual-style.md §V1` untuk nilai aktual.
+   Jangan improvisasi nilai warna sendiri untuk status/error/success.
 10. Gambar: **tidak boleh hotlink/scrape gambar dari internet ke kode produksi.**
     Untuk foto yang belum tersedia (gedung sekolah, bengkel, siswa), buat placeholder
     jelas dengan komentar `{/* TODO: ganti dengan foto asli — [deskripsi] */}` dan
@@ -86,8 +98,26 @@ di awal:
 - [ ] Responsive test: 375px, 768px, 1280px
 - [ ] `prefers-reduced-motion` mematikan animasi non-esensial
 
-## Anti-Pattern (ringkasan — daftar lengkap di `@ui-context.md` §10)
+## Design System v2.0 — Aturan Agent (PENTING)
+
+> [!IMPORTANT]
+> Design system dipecah menjadi 3 layer sejak v2.0. Ketika user meminta perubahan,
+> agent WAJIB tahu layer mana yang boleh disentuh:
+
+| User Minta | Yang Boleh Diedit | Yang DILARANG Diedit |
+|------------|------------------|---------------------|
+| "Ganti warna / tema / font / radius" | `visual-style.md` | `foundation.md`, `components.md` |
+| "Tambah / ubah komponen" | `components.md`, file komponen FE | `foundation.md` |
+| "Buat halaman baru" | File halaman FE + update `components.md` | Urutan section di `foundation.md §F6` |
+| "Ubah aturan aksesibilitas" | *(butuh izin eksplisit user)* `foundation.md` | — |
+
+**Protokol wajib setelah edit `visual-style.md`:**
+1. Cross-check font baru dengan daftar font terlarang di `foundation.md §F9`
+2. Verifikasi kontras WCAG aktual untuk token yang berubah (khususnya `danger`/`success`)
+3. Pastikan token dark mode DIHITUNG ULANG — bukan copy dari light mode
+
+## Anti-Pattern (ringkasan — daftar lengkap di `@context/design-system/foundation.md §F9`)
 Gradient neon, emoji sebagai ikon, glassmorphism, skeleton shimmer loader, radius
 >12px, testimoni/data palsu, grid 3-kolom generik untuk semua jenis konten, font
-Inter/Geist/Space Grotesk (pakai Plus Jakarta Sans + DM Sans sesuai
-`@design-system/master.md` §2).
+Inter/Geist/Space Grotesk (pakai font yang disetujui di `visual-style.md §V2`),
+hover-only tanpa focus, dark mode token copy dari light.
