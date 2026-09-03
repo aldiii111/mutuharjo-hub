@@ -5,10 +5,12 @@ import { bludRouter } from "./blud.routes.js"
 import { uploadRouter } from "./upload.routes.js"
 import { chatbotRouter } from "./chatbot.routes.js"
 import { pembayaranRouter } from "./pembayaran.routes.js"
+import { authRouter } from "./auth.routes.js"
 
 const apiRouter: IRouter = Router()
 
 apiRouter.use(healthRouter)
+apiRouter.use("/auth", authRouter)
 apiRouter.use("/ppdb", ppdbRouter)
 apiRouter.use("/blud", bludRouter)
 apiRouter.use("/upload", uploadRouter)
