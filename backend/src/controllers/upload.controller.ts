@@ -12,34 +12,33 @@ export class UploadController {
       if (!req.file) {
         return res.status(400).json({
           success: false,
-          error: "File media wajib diunggah"
+          error: "File media wajib diunggah",
         })
       }
-
+      const webpFilename: string = await uploadService.compressToWebP(req.file.path)
+      const fileUrl: string = `/uploads/${webpFilename}`
       const category: string = typeof req.body.category === "string" ? req.body.category : "general"
       const entityId: string | undefined = typeof req.body.entityId === "string" ? req.body.entityId : undefined
-      const fileUrl: string = `/uploads/${req.file.filename}`
-
       const record: UploadedFile = await uploadService.saveUploadRecord(
-        req.file.filename,
+        webpFilename,
         fileUrl,
         category,
         entityId
       )
-
       return res.status(201).json({
         success: true,
         data: record,
-        message: "Berhasil mengunggah media"
+        message: "Berhasil mengunggah media",
       })
     } catch (error: unknown) {
       const errorMessage: string = error instanceof Error ? error.message : "Terjadi kesalahan server"
       return res.status(500).json({
         success: false,
-        error: errorMessage
+        error: errorMessage,
       })
     }
   }
 }
 
 export const uploadController: UploadController = new UploadController()
+

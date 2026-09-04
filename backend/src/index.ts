@@ -1,6 +1,7 @@
 import "dotenv/config"
 import "./types/session.types.js"
 import express from "express"
+import path from "path"
 import cors from "cors"
 import session from "express-session"
 import connectPgSimple from "connect-pg-simple"
@@ -30,6 +31,7 @@ app.use(
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+app.use("/uploads", express.static(path.resolve("uploads")))
 
 const PgStore = connectPgSimple(session)
 
@@ -58,3 +60,4 @@ app.use(globalErrorHandler)
 app.listen(PORT, () => {
   console.log(`[Mutuharjo API] Server running on http://localhost:${PORT}`)
 })
+
