@@ -36,7 +36,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           error:
             "group-[.toaster]:bg-destructive group-[.toaster]:text-white group-[.toaster]:border-destructive",
           success:
-            "group-[.toaster]:bg-success group-[.toaster]:text-success-foreground group-[.toaster]:border-success",
+            "group-[.toaster]:bg-green-500 group-[.toaster]:text-white group-[.toaster]:border-green-500",
           warning:
             "group-[.toaster]:bg-amber-500 group-[.toaster]:text-white group-[.toaster]:border-amber-500",
           info: "group-[.toaster]:bg-blue-500 group-[.toaster]:text-white group-[.toaster]:border-blue-500",
