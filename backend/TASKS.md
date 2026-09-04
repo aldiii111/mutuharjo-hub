@@ -150,12 +150,12 @@ model UploadedFile {
 
 ### Sprint 1: Fondasi Backend, PostgreSQL & Auth (Phase 0)
 
-* [x] **Task 1.1 — Setup Monorepo Workspace**: Menyiapkan linkage package `@mutuharjo/shared`. (Owner: All Devs)
+* [x] **Task 1.1 — Setup Monorepo Workspace**: Menyiapkan linkage package `@mutuharjo/shared`.
 * [ ] **Task 1.5 — Setup Express 5 Server**: Inisialisasi Express.js 5 TypeScript di `backend/` dan routing dasar. (Owner: Dev BE-1)
 * [ ] **Task 1.6 — Integrasi Prisma ORM v6 PostgreSQL**: Tulis `schema.prisma` utuh untuk 7 model dan jalankan `npx prisma migrate dev` menggunakan Prisma v6 (`^6.4.1`). (Owner: Dev BE-1)
 * [ ] **Task 1.7 — Setup Auth Session Admin**: Inisialisasi Express session dengan `connect-pg-simple`, Bcrypt hashing, dan `requireAdminSession` middleware. (Owner: Dev BE-1)
 * [ ] **Task 1.8 — Endpoint Upload Media (`POST /api/upload`)**: Buat endpoint Multer, kompresi WebP via Sharp (max 2MB), dan pencatatan ke `UploadedFile`. (Owner: Dev BE-2)
-* [ ] **Task 1.9 — Pembuatan File Seed Data JSON & Prisma Seed**: Buat 10 file seed (`mitra.json`, `jurusan.json`, `testimoni.json`, `produk-blud.json`, `berita.json`, `rekening.json`, `wa-admin.json`, logo kompetisi di `frontend/data/`, serta `admin.json` di `backend/prisma/seed/`) serta script `prisma db seed`. (Owner: Dev BE-2)
+* [ ] **Task 1.9 — Pembuatan File Seed Data JSON & Prisma Seed**: Buat script `prisma db seed` dan file `admin.json` di `backend/prisma/seed/`. (Owner: Dev BE-2)
 * [ ] **Task 1.10 — Sanitasi CORS & Health Check**: Setup middleware CORS domain & subdomain, serta buat endpoint `GET /api/health`. (Owner: Dev BE-1 & BE-2)
 
 ### Sprint 2: Feature Services & Content API (Phase 1 & 2)
@@ -171,13 +171,13 @@ model UploadedFile {
 * [ ] **Task 3.5 — Endpoint Auth Admin (`POST /api/auth/login` & `/api/auth/logout`)**: Validasi kredensial admin (Bcrypt) dan manajemen session cookie. (Owner: Dev BE-1)
 * [ ] **Task 3.6 — Endpoint Status Verification (`PATCH /api/admin/ppdb/:id` & `PATCH /api/admin/pembayaran/:id`)**: Admin update status PPDB dan pembayaran. (Owner: Dev BE-1)
 * [ ] **Task 3.7 — Endpoint CRUD Berita & BLUD (`/api/admin/berita` & `/api/admin/blud`)**: Endpoint CRUD terproteksi session admin. (Owner: Dev BE-1)
-* [ ] **Task 3.8 — Endpoint Chatbot Hybrid (`POST /api/chatbot`)**: Implementasi Layer 1 (Rule-based keyword match `lib/faq-data.ts`), Layer 2 (Gemini API fallback + Rekomendasi Jurusan), dan simpan log ke `ChatLog`. (Owner: Dev BE-2)
+* [ ] **Task 3.8 — Endpoint Chatbot Hybrid (`POST /api/chatbot`)**: Implementasi Layer 1 (Rule-based keyword match), Layer 2 (Gemini API fallback), dan log ke `ChatLog`. (Owner: Dev BE-2)
 
 ### Sprint 4: Nginx, Load Test & PM2 Deploy (Phase 5 & 6)
 
 * [ ] **Task 4.3 — Konfigurasi Server Nginx & SSL**: Setup Nginx Server Block untuk domain utama & subdomain, reverse proxy ke port Express (5000) & Next.js (3000), serta SSL Certbot. (Owner: Dev BE-1)
 * [ ] **Task 4.4 — Deployment VPS & PM2**: Devisi instance PM2 untuk Express & Next.js, pastikan connection pool limit `DATABASE_URL` (`?connection_limit=20`). (Owner: Dev BE-1)
-* [ ] **Task 4.5 — Uji Beban (Load Test) `autocannon`**: Jalankan `autocannon -c 50 -d 30` untuk Domain Utama & Subdomain PPDB. Pastikan throughput ≥100 req/sec & latency p99 <500ms. (Owner: Dev BE-2)
+* [ ] **Task 4.5 — Uji Beban (Load Test) `autocannon`**: Jalankan `autocannon -c 50 -d 30`. Pastikan throughput ≥100 req/sec & latency p99 <500ms. (Owner: Dev BE-2)
 
 ---
 
@@ -186,4 +186,4 @@ model UploadedFile {
 1. Seluruh controller dan service ditulis tanpa tipe `any` dan tanpa komentar slash (`//`).
 2. `curl http://localhost:5000/api/health` mengembalikan `200 OK`.
 3. Schema Prisma valid (`npx prisma validate`) dan migration berjalan bersih di PostgreSQL.
-4. Uji beban `autocannon` mencapai ≥100 req/sec dengan latency p99 <500ms untuk Domain Utama dan Subdomain PPDB, serta terdokumentasi dengan baik.
+4. Uji beban `autocannon` mencapai ≥100 req/sec dengan latency p99 <500ms.
