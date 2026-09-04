@@ -4,11 +4,6 @@ import path from "path"
 
 const prisma = new PrismaClient()
 
-interface AdminSeed {
-  username: string
-  passwordHash: string
-}
-
 interface ProdukBludItem {
   nama: string
   deskripsi: string
@@ -29,21 +24,6 @@ interface BeritaItem {
 }
 
 async function main(): Promise<void> {
-  const adminPath = path.resolve("prisma/seed/admin.json")
-  const adminRaw = await fs.readFile(adminPath, "utf-8")
-  const admins: AdminSeed[] = JSON.parse(adminRaw) as AdminSeed[]
-
-  for (const admin of admins) {
-    await prisma.admin.upsert({
-      where: { username: admin.username },
-      update: {},
-      create: {
-        username: admin.username,
-        passwordHash: admin.passwordHash,
-      },
-    })
-  }
-
   const bludPath = path.resolve("../frontend/data/dynamic/produk-blud.json")
   try {
     const bludRaw = await fs.readFile(bludPath, "utf-8")
