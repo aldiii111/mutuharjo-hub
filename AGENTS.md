@@ -70,10 +70,7 @@ di awal:
 6. **Semua carousel/horizontal-scroll wajib punya kontrol next/prev yang terlihat**
    (tombol panah minimal, dot indicator opsional) — jangan cuma `overflow-x-auto`
    diam-diam tanpa afordansi, pengguna tidak akan tahu ada konten lain di sana.
-7. **Elemen bertahap/berurutan (timeline SPMB, stepper form) pakai layout vertikal
-   single-column** (ikon/nomor di kiri + garis penghubung, konten di kanan, stack ke
-   bawah). **Jangan** pakai layout zigzag kiri-kanan alternating — itu fragile dan
-   gampang pecah di breakpoint sempit.
+7. **Elemen bertahap/berurutan (timeline SPMB, stepper form)** dapat menggunakan layout **zigzag (kiri-kanan alternating)** pada Desktop untuk estetika, namun **WAJIB** memiliki *fallback* responsif menjadi vertikal *single-column* pada layar Mobile/Tablet agar tidak pecah di *breakpoint* sempit.
 8. **Jangan seragamkan semua section jadi grid 3 kolom identik.** Ikuti catatan
    layout per section di `@context/design-system/foundation.md §F6` — Program
    Keahlian butuh hierarki (1 unggulan besar + sisanya kecil), Fasilitas cukup
@@ -94,7 +91,7 @@ di awal:
 - [ ] Kontras warna `danger`/`success` sudah benar (bukan hitam/kembar dengan accent)
 - [ ] Komponen berulang sudah jadi component reuse, bukan copy-paste markup
 - [ ] Carousel/scroll horizontal punya kontrol terlihat
-- [ ] Timeline/stepper pakai layout vertikal, bukan zigzag
+- [ ] Timeline/stepper zigzag memiliki fallback responsif vertikal di layar mobile
 - [ ] Responsive test: 375px, 768px, 1280px
 - [ ] `prefers-reduced-motion` mematikan animasi non-esensial
 

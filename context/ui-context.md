@@ -75,7 +75,7 @@ Detail lengkap di `foundation.md §F9`. Ini yang paling sering salah:
 |-------|-------|
 | Semua section jadi grid 3 kolom identik | Ikuti layout per section — `foundation.md §F6` |
 | Carousel/scroll horizontal tanpa tombol nav | Tombol prev/next wajib terlihat |
-| Timeline/stepper zigzag kiri-kanan | Vertikal single-column — ikon di kiri, konten di kanan |
+| Timeline/stepper zigzag statis (tanpa fallback) | Zigzag diizinkan di desktop, wajib vertikal di mobile |
 | Navbar/footer ditulis ulang per halaman | Satu implementasi di `app/layout.tsx` |
 | Logo sponsor dipakai sebagai logo situs di header | Logo sekolah di header dan footer; sponsor warna asli di footer |
 | Hero h1 pakai ukuran heading biasa | Hero butuh `text-5xl lg:text-7xl` — lihat `foundation.md §F4` |

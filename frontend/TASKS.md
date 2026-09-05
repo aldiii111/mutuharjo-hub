@@ -69,14 +69,14 @@ frontend/
 
 ### Sprint 2: Core Subdomain PPDB & Landing Page (Phase 1 & 2)
 
-* [ ] **Task 2.1 — Halaman Informasi PPDB (`/ppdb`)**: Buat halaman informasi pendaftaran di domain utama (jadwal, syarat, biaya Rp100.000, infografis timeline 5 tahap) + CTA ke subdomain.
+* [ ] **Task 2.1 — Halaman Informasi PPDB (`/ppdb`)**: Buat halaman informasi pendaftaran di domain utama (jadwal, syarat, infografis timeline 5 tahap) + CTA ke subdomain.
 * [ ] **Task 2.2 — Form Wizard 4-Step Subdomain (`ppdb.*`)**: Buat form bertahap (Step 1 Data Diri, Step 2 Ortu, Step 3 Pilihan 6 Jurusan CoE, Step 4 Review & Checklist berkas fisik) menggunakan Zod + React Hook Form + Shadcn UI. (Note: Gunakan layout vertikal sesuai aturan AGENTS.md).
 * [ ] **Task 2.3 — Autosave Draft & Bukti Pendaftaran PDF**: Integrasi `localStorage` autosave antar-step agar data tidak hilang saat refresh, serta buat komponen unduh PDF "Bukti Pendaftaran".
 * [ ] **Task 2.4 — Halaman Konfirmasi Pembayaran & Cek Status**: Buat halaman `ppdb.*/konfirmasi` (info rekening & form upload bukti) dan `ppdb.*/status` (real-time status pendaftaran).
 * [ ] **Task 2.10 — Landing Page — Hero & PPDB Schedule Teaser (F7)**: Bangun `HeroSection` (headline, CTA "Daftar PPDB" ke `/ppdb`, statistik, dot-pattern) dan `PpdbScheduleTeaser` (ringkasan 3 langkah + CTA). Pastikan skala tipografi hero besar dan berani.
-* [ ] **Task 2.11 — Landing Page — Jurusan, Testimoni, Kerjasama Industri (F7)**: Bangun `JurusanGrid`, `TestimoniCarousel` (reduced motion support & wajib ada kontrol visual), dan `MitraLogoGrid`.
+* [ ] **Task 2.11 — Landing Page — Jurusan, Testimoni, Kerjasama Industri (F7)**: Bangun `JurusanGrid` (wajib hierarki visual 1 unggulan besar + sisanya kecil, bukan grid 3 kolom identik), `TestimoniCarousel` (reduced motion support & wajib ada kontrol visual), dan `MitraLogoGrid`.
 * [ ] **Task 2.12 — Halaman Detail Jurusan (`/jurusan/[slug]`)**: Dynamic route detail per jurusan (deskripsi lengkap, keunggulan, mitra DUDI terkait) dari `jurusan.json`.
-* [ ] **Task 2.13 — Landing Page — Berita & Fasilitas (F7)**: Bangun `BeritaGrid` (1 artikel featured + 2 kecil) dan `FasilitasStrip` (list ikon horizontal).
+* [ ] **Task 2.13 — Landing Page — Berita & Fasilitas (F7)**: Bangun `BeritaGrid` (1 artikel featured + 2 kecil) dan `FasilitasStrip` (spesifik berupa strip ikon horizontal minimalis, bukan card besar bershadow).
 
 ### Sprint 3: Interactive Features, Chatbot & Panel Admin (Phase 3 & 4)
 
@@ -101,5 +101,6 @@ frontend/
 4. Logo brand di Navbar wajib ikon `school` + teks "SMK Mutuharjo", logo sponsor/kompetisi hanya ada di Footer.
 5. Rasio kontras teks ≥ 4.5:1 terverifikasi. Token `danger`/`success` wajib merujuk ke token yang sudah disesuaikan.
 6. Komponen carousel/horizontal scroll harus memiliki navigasi yang eksplisit (arrows/dots).
-7. Gambar di halaman menggunakan foto asli atau placeholder dengan keterangan jelas, dilarang mengambil (`hotlink`) asal dari internet.
-8. Lighthouse score: SEO ≥ 90, Performance ≥ 80.
+7. Gambar di halaman menggunakan foto asli atau placeholder dengan keterangan jelas (tanpa menggunakan komentar slash seperti `//` atau `/* */`), dilarang mengambil (`hotlink`) asal dari internet.
+8. Animasi non-esensial wajib dimatikan (reduced-motion support) saat diakses dengan pengaturan `prefers-reduced-motion: reduce`.
+9. Lighthouse score: SEO ≥ 90, Performance ≥ 80.

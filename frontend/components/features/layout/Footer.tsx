@@ -13,7 +13,7 @@ export default function Footer() {
                 width={160}
                 height={40}
                 className="h-14 w-auto object-contain"
-                src="/images/logo/Logo-smkmutuharjo-web-272.png"
+                src="/images/logo/mutuharjo-web.png"
               />
             </div>
             <div className="mb-3">
@@ -119,7 +119,7 @@ export default function Footer() {
                 height="180"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="block w-full transition-transform duration-300 group-hover:scale-[1.01]"
+                className="block w-full transition-transform duration-300"
                 style={{ border: 0 }}
                 allowFullScreen
               />
@@ -142,19 +142,19 @@ export default function Footer() {
             <div className="pt-4 border-t border-border">
               <div className="flex flex-wrap items-center gap-x-6 gap-y-4 pt-1">
                 <div className="flex items-center justify-start h-8" title="JHIC 2.0">
-                  <img alt="Logo JHIC 2026" className="max-h-7 w-auto object-contain hover:opacity-80 transition-opacity" src="/images/logo/kompetisi/1. LOGO JHIC 2.0.png" />
+                  <img alt="Logo JHIC 2026" className="max-h-7 w-auto object-contain hover:opacity-80 transition-opacity" src="/images/logo/kompetisi/jhic.png" />
                 </div>
                 <div className="flex items-center justify-start h-8" title="Jagoan Hosting">
-                  <img alt="Logo Jagoan Hosting" className="max-h-6 w-auto object-contain hover:opacity-80 transition-opacity" src="/images/logo/kompetisi/2. Logo Jagoan Hosting.png" />
+                  <img alt="Logo Jagoan Hosting" className="max-h-6 w-auto object-contain hover:opacity-80 transition-opacity" src="/images/logo/kompetisi/jagoan-hosting.png" />
                 </div>
                 <div className="flex items-center justify-start h-8" title="Garuda Spark by Komdigi">
-                  <img alt="Logo Garuda Spark" className="max-h-7 w-auto object-contain hover:opacity-80 transition-opacity" src="/images/logo/kompetisi/3. Garuda Spark Full Color.png" />
+                  <img alt="Logo Garuda Spark" className="max-h-7 w-auto object-contain hover:opacity-80 transition-opacity" src="/images/logo/kompetisi/garuda-spark.png" />
                 </div>
                 <div className="flex items-center justify-start h-8" title="Kementerian Komunikasi dan Digital RI">
-                  <img alt="Logo KOMDIGI" className="max-h-7 w-auto object-contain hover:opacity-80 transition-opacity" src="/images/logo/kompetisi/4. KOMDIGI.png" />
+                  <img alt="Logo KOMDIGI" className="max-h-7 w-auto object-contain hover:opacity-80 transition-opacity" src="/images/logo/kompetisi/komdigi.png" />
                 </div>
                 <div className="flex items-center justify-start h-8" title="Ngalup.co">
-                  <img alt="Logo Ngalup.co" className="max-h-5 w-auto object-contain hover:opacity-80 transition-opacity" src="/images/logo/kompetisi/5. LOGO NGALUP.png" />
+                  <img alt="Logo Ngalup.co" className="max-h-5 w-auto object-contain hover:opacity-80 transition-opacity" src="/images/logo/kompetisi/ngalup.png" />
                 </div>
               </div>
             </div>

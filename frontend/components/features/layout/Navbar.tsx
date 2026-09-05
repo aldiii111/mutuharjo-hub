@@ -96,7 +96,7 @@ export default function Navbar() {
           onClick={closeMobile}
         >
           <Image
-            src="/images/logo/Logo-smkmutuharjo-web-272.png"
+            src="/images/logo/mutuharjo-web.png"
             alt="Logo SMK Mutuharjo"
             width={160}
             height={40}
@@ -164,7 +164,7 @@ export default function Navbar() {
           role="dialog"
           aria-label="Menu navigasi"
           aria-modal="true"
-          className="absolute top-[3.75rem] sm:top-[4.5rem] left-3 right-3 sm:left-4 sm:right-4 pointer-events-auto rounded-2xl border border-border bg-popover shadow-lg overflow-hidden"
+          className="absolute top-[3.75rem] sm:top-[4.5rem] left-3 right-3 sm:left-4 sm:right-4 pointer-events-auto rounded-2xl border border-border bg-background/90 shadow-lg overflow-hidden"
         >
           <nav
             className="flex flex-col px-2 pt-2 pb-1 gap-px"
@@ -235,7 +235,7 @@ function DesktopDropdown({
 
       <div className="invisible absolute left-0 top-full mt-2 w-[210px] opacity-0 -translate-y-1 transition-all duration-150 group-hover:visible group-hover:opacity-100 group-hover:translate-y-0">
         <ul
-          className="flex flex-col overflow-hidden rounded-xl border border-border bg-popover p-1.5 shadow-lg"
+          className="flex flex-col overflow-hidden rounded-xl border border-border bg-background/90 p-1.5 shadow-lg"
           role="menu"
         >
           {items.map((item) => (

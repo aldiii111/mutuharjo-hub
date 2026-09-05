@@ -179,7 +179,7 @@ Urutan section dan struktur layout per halaman berikut **tidak boleh berubah tan
 | Halaman | Struktur Section (urutan) | Catatan Kritis |
 |---------|---------------------------|----------------|
 | **Landing (F7)** | Hero → Jadwal & Cara Daftar (3 langkah + CTA) → Program Keahlian (6 jurusan) → Testimoni Carousel → Kerjasama Industri → Berita (3 kartu) → Fasilitas (strip ikon) → Footer | Hero: focal point ke CTA "Daftar PPDB". Program Keahlian: hierarki (1 unggulan besar + sisanya), **bukan** grid 3 kolom identik. Fasilitas: strip ikon horizontal — konten terlalu singkat untuk kartu bershadow. |
-| **PPDB Info** | Hero info → Timeline 5 tahap → Syarat & Biaya → CTA ke subdomain | Timeline: `border-l-primary` + dot absolut. Layout vertikal single-column — jangan zigzag. |
+| **PPDB Info** | Hero info → Timeline 5 tahap → Syarat & Biaya → CTA ke subdomain | Timeline: Layout zigzag diizinkan di desktop dengan fallback vertikal di mobile. |
 | **Subdomain Form** | Stepper (4 step) → Form per step (2 kol desktop / 1 kol mobile) → Review → Submit | `localStorage` draft per step. Stepper: vertikal, ikon/nomor kiri + garis penghubung. |
 | **BLUD Showcase** | Filter chips (jurusan) → Grid produk (3 kol) → Detail modal | Empty state jika filter kosong. |
 | **Direktori Mitra** | Filter chips → List kartu mitra → CTA WA | Logo fallback `Building2`. Empty state eksplisit. |
@@ -189,7 +189,7 @@ Urutan section dan struktur layout per halaman berikut **tidak boleh berubah tan
 
 **Aturan layout lintas halaman:**
 - Carousel / horizontal-scroll **wajib** punya kontrol next/prev yang terlihat (tombol panah minimal) — tidak boleh hanya `overflow-x-auto` tanpa affordansi
-- Timeline/stepper **wajib** layout vertikal single-column (nomor di kiri + garis, konten di kanan) — tidak boleh zigzag kiri-kanan
+- Timeline/stepper **diizinkan** menggunakan layout zigzag (kiri-kanan alternating) untuk Desktop asalkan memiliki *fallback* vertikal *single-column* (nomor di kiri, konten di kanan) pada layar Mobile/Tablet.
 - Jangan seragamkan semua section jadi grid 3 kolom identik — ikuti catatan per halaman di atas
 
 ---
