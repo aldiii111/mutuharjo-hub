@@ -6,6 +6,7 @@ import { uploadRouter } from "./upload.routes.js"
 import { chatbotRouter } from "./chatbot.routes.js"
 import { pembayaranRouter } from "./pembayaran.routes.js"
 import { authRouter } from "./auth.routes.js"
+import { adminRouter } from "./admin.routes.js"
 
 const apiRouter: IRouter = Router()
 
@@ -16,5 +17,6 @@ apiRouter.use("/blud", bludRouter)
 apiRouter.use("/upload", uploadRouter)
 apiRouter.use("/chatbot", chatbotRouter)
 apiRouter.use("/pembayaran", pembayaranRouter)
+apiRouter.use("/admin", adminRouter)
 
 export { apiRouter }

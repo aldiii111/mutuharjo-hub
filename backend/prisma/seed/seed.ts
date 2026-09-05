@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client"
-import fs from "fs/promises"
-import path from "path"
+import * as fs from "node:fs/promises"
+import * as path from "node:path"
+import process from "node:process"
+import bcrypt from "bcrypt"
 
 const prisma = new PrismaClient()
 
@@ -24,6 +26,16 @@ interface BeritaItem {
 }
 
 async function main(): Promise<void> {
+  const passwordHash = await bcrypt.hash("admin123", 12)
+  await prisma.admin.upsert({
+    where: { username: "admin" },
+    update: { passwordHash },
+    create: {
+      username: "admin",
+      passwordHash,
+    },
+  })
+
   const bludPath = path.resolve("../frontend/data/dynamic/produk-blud.json")
   try {
     const bludRaw = await fs.readFile(bludPath, "utf-8")
