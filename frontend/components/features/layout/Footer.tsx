@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Footer() {
   return (
@@ -7,21 +8,23 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10">
           <div className="md:col-span-12 lg:col-span-4 flex flex-col">
             <div className="mb-3">
-              <img
+              <Image
                 alt="Logo SMK Mutuharjo"
-                className="h-10 w-auto object-contain"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCD-U48dvc8LVbw-Sn4y_LxKBD51K5v-2_eelhaufu2S50RyauTsxVS9LHVvWwgaJ0r7jN2fqDaDYGLsreg3bEknxm8azP-VwYBKD20fLW3M08isptcpohpwLBABUWiOuzbCOpOZSOwwsCevCZtxvH3nkVcNf7huNQTsoR63Xnl0G7vOTlR6bl0w7wNfHOjS7bugY5IBG1Cy0lgmHPiW7ToWvq49yoqli1_vj4U1uRtKtPFH58eS8ve6vnU9GCW80pS-A"
+                width={160}
+                height={40}
+                className="h-14 w-auto object-contain"
+                src="/images/logo/Logo-smkmutuharjo-web-272.png"
               />
             </div>
             <div className="mb-3">
-              <h3 className="font-semibold text-base text-foreground leading-snug">
+              <h3 className="font-heading font-semibold text-base text-foreground leading-snug">
                 SMK Muhammadiyah 1 Sukoharjo
               </h3>
-              <p className="text-xs text-muted-foreground leading-relaxed mt-1.5">
+              <p className="text-sm text-muted-foreground leading-relaxed mt-3.5">
                 Lembaga pendidikan kejuruan unggulan berbasis teknologi industri dan kewirausahaan yang berkomitmen mencetak lulusan berdaya saing global.
               </p>
             </div>
-            <div className="space-y-2.5 text-xs text-muted-foreground mb-4">
+            <div className="space-y-2.5 text-xs text-muted-foreground mb-4 mt-3.5">
               <div className="flex items-start gap-2">
                 <span className="material-symbols-outlined text-primary text-base leading-none mt-0.5 shrink-0">location_on</span>
                 <p className="leading-relaxed">
@@ -56,15 +59,15 @@ export default function Footer() {
             </div>
           </div>
           <div className="md:col-span-6 lg:col-span-2 flex flex-col">
-            <div className="flex items-center mb-5.5">
-              <h4 className="font-semibold text-md text-foreground tracking-tight">
+            <div className="flex items-center mb-3.5">
+              <h4 className="font-heading font-semibold text-md text-foreground tracking-tight">
                 Jelajahi
               </h4>
             </div>
             <ul className="flex flex-col gap-2.5 text-sm">
               {[
                 { href: '/', label: 'Beranda' },
-                { href: '/profil', label: 'Profil Sekolah' },
+                { href: '/profil/sejarah', label: 'Profil Sekolah' },
                 { href: '/galeri', label: 'Galeri' },
                 { href: '/berita', label: 'Berita & Agenda' },
                 { href: '/kontak', label: 'Kontak' },
@@ -81,8 +84,8 @@ export default function Footer() {
             </ul>
           </div>
           <div className="md:col-span-6 lg:col-span-2 flex flex-col">
-            <div className="flex items-center mb-5.5">
-              <h4 className="font-semibold text-md text-foreground tracking-tight">
+            <div className="flex items-center mb-3.5">
+              <h4 className="font-heading font-semibold text-md text-foreground tracking-tight">
                 Layanan &amp; Program
               </h4>
             </div>
@@ -105,10 +108,10 @@ export default function Footer() {
             </ul>
           </div>
           <div className="md:col-span-12 lg:col-span-4 flex flex-col">
-            <h4 className="font-semibold text-md text-foreground mb-3 tracking-tight">
+            <h4 className="font-heading font-semibold text-md text-foreground mb-3.5 tracking-tight">
               Lokasi Kami
             </h4>
-            <div className="group relative w-full rounded-lg overflow-hidden border border-border shadow-xs mb-5">
+            <div className="group relative sm:w-2/3 lg:w-full rounded-lg overflow-hidden border border-border shadow-xs mb-5">
               <iframe
                 title="Lokasi SMK Muhammadiyah 1 Sukoharjo"
                 src="https://maps.google.com/maps?q=SMK+Muhammadiyah+1+Sukoharjo+Jl.+Anggrek+No.2+Sukoharjo&output=embed"
@@ -139,19 +142,19 @@ export default function Footer() {
             <div className="pt-4 border-t border-border">
               <div className="flex flex-wrap items-center gap-x-6 gap-y-4 pt-1">
                 <div className="flex items-center justify-start h-8" title="JHIC 2.0">
-                  <img alt="Logo JHIC 2026" className="max-h-7 w-auto object-contain hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnqzTy1KvjG3otVJjmwY_rQ6b4-grMPDLamtTsEIk1_STALWQSUdXIMrMHnlloteXctGhcCeSCJP48Uk8Q5PX2ykJ9Yf9dKtDLLk0ybG4ZZPz4XFUKvbQobfuyQpMS0CSMzNWlZPGfwOQU4T2eKOWwP3EAbcRUhNsc9eqJJMH30lswJNfD29tD87oFHe4ehEjT-TRzZpSjsax86iaWXh_FCFK9x2FK_fe-WHmFBksEu4Q7UuFtGILPSFEoKM68EOkK-w" />
+                  <img alt="Logo JHIC 2026" className="max-h-7 w-auto object-contain hover:opacity-80 transition-opacity" src="/images/logo/kompetisi/1. LOGO JHIC 2.0.png" />
                 </div>
                 <div className="flex items-center justify-start h-8" title="Jagoan Hosting">
-                  <img alt="Logo Jagoan Hosting" className="max-h-6 w-auto object-contain hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-aeZCL--Fg9dWsxfNWEeE6lBFwG5l1CE8Z_87pTt1Eb5SKBdULKVGDcp6Dh-MIAjbvlgyJzBDbqjbM8czWGWK3icBWmJj9eDWYh0-2pmZ9xdamfgqS5qMF-iMS1DWTGkI3vCvh-9hAJ6HOZZ4UrH34UaPlgSNnWTIowQ9JPRf83cvEo2dmSVC33yK4zabxN6gqrYiWg1zz0bptvVE4yghejhLi30EkzmMnq0e_0tikT0DTpD_CTVuG94tZrCyDk_g1g" />
+                  <img alt="Logo Jagoan Hosting" className="max-h-6 w-auto object-contain hover:opacity-80 transition-opacity" src="/images/logo/kompetisi/2. Logo Jagoan Hosting.png" />
                 </div>
                 <div className="flex items-center justify-start h-8" title="Garuda Spark by Komdigi">
-                  <img alt="Logo Garuda Spark" className="max-h-7 w-auto object-contain hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUi0HFsBl0GyO01JgJVjjv7YzJS5HmLJD_t65Vsaa4sL3ij5hIjDon1faMdG6wOHdcZUkvj6uTy-gsk69Ma6szZ4bD31_nEv84LGP46x5u7QAFRq-xPM2i-bZpojZFMs9CLIwFXB4r5tbZbP5t8d9_UE4QP9pyJuu1H6cbMX_JhkHlq6PDDs2Oan1Oj9fKfGKEpQQJi9NvwPJb3KSXAbJ3oWcE1i66ejPcfjRzBSGNBhjmltBV7ocMVb44EXrGBXlbkw" />
+                  <img alt="Logo Garuda Spark" className="max-h-7 w-auto object-contain hover:opacity-80 transition-opacity" src="/images/logo/kompetisi/3. Garuda Spark Full Color.png" />
                 </div>
                 <div className="flex items-center justify-start h-8" title="Kementerian Komunikasi dan Digital RI">
-                  <img alt="Logo KOMDIGI" className="max-h-7 w-auto object-contain hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcDHMRVqk4QLLipb86L4PSiyqObCwHkH4dAho9LUEmYBVq_JqkXlhA-wU5y5hij_pJyyA9WTA7Pm-B4qPHgDs9Pv2_1l4OTGsD89n8l-Kw3Yy9EusRz1kI0NR_26_lQlxjnTn-PpVh2yWfqXmnQjBYA7FVeBbTBOIY7bwf-rmLQEf4POih65cw8mtvJKq39xJmyTLd2FLs81fFeJFyY8_iZ_VCa3oTzo3Z9UwARLi9lPnyjOKljYS7p9Im17pt1goavw" />
+                  <img alt="Logo KOMDIGI" className="max-h-7 w-auto object-contain hover:opacity-80 transition-opacity" src="/images/logo/kompetisi/4. KOMDIGI.png" />
                 </div>
                 <div className="flex items-center justify-start h-8" title="Ngalup.co">
-                  <img alt="Logo Ngalup.co" className="max-h-5 w-auto object-contain hover:opacity-80 transition-opacity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANM1onEdQjgkwbmQUN5_97Ib66ca_omZW4Wdt8AiFo9dqGDwia32jhf-CN2nQF8zoF5DKyb6feI9O-U9KLOtHTqMUgjUuxznZ3q_B-ep2sugrZjj66-6BVutarUCmmA3MZ8sdolFHsHi76TAc1dJQF2WUj0_zE73UWuq6Poyt80W9PeklUuuAvv3t_D8xAZPIZ4VVgGd-CXjN9XBOlukyRNYSdvtwUpaKqCFRwR8oAB-ycMwSCkLoKy0uXRXQeBnFSrA" />
+                  <img alt="Logo Ngalup.co" className="max-h-5 w-auto object-contain hover:opacity-80 transition-opacity" src="/images/logo/kompetisi/5. LOGO NGALUP.png" />
                 </div>
               </div>
             </div>

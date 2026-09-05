@@ -2,7 +2,7 @@ import { Container } from "@/components/ui/container";
 
 export default function HomePage() {
   return (
-    <Container className="py-24 text-center">
+    <Container className="h-1000 py-24 text-center">
       <h1 className="text-4xl font-bold tracking-tight text-primary sm:text-5xl mb-6">
         Preview Layout Utama
       </h1>
